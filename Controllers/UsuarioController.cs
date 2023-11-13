@@ -32,7 +32,7 @@ public class UsuarioController : Controller
     }
 
     [HttpGet]
-    public IActionResult Update(int id) // tiene que coincidir con el asp-route-{nombre} del button
+    public IActionResult Update(int id) // tiene que coincidir con el asp-route-{nombre} del button?
     {  
         return View(usuarioRepository.GetById(id));
     }
