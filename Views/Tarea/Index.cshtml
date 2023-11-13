@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Tareas"; // titulo de la pestaña
+}
+
+@model List<Tarea>
+
+<div class="container">
+    <h2>Lista Tareas</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th hidden>ID</th> <!-- oculto el id--->
+                <th hidden>Id tablero</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Color</th>
+                <th>Estado</th>
+                <th hidden>Id usuario asignado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td hidden>@t.Id</td>
+                    <td hidden>@t.Id_tablero</td>
+                    <td>@t.Nombre</td>
+                    <td>@t.Descripcion</td>
+                    <td>@t.Color</td>
+                    <td>@t.Estado</td>
+                    <td hidden>@t.IdUsuarioAsignado</td>
+                    <td>
+                        <a asp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
+                        <a asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a type="button" class="btn btn-primary btn-lg" asp-controller="Tarea" asp-action="Create">Crear Tarea</a>
+</div>

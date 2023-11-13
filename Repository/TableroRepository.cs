@@ -24,7 +24,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
         }
 
         public void Update(int id, Tablero tablero){
-            var query = @"UPADTE Tablero SET id_usuario_propietario = @idUsuario, nombre = @nombre, descripcion = @descripcion WHERE id = @idTablero;";
+            var query = @"UPDATE Tablero SET id_usuario_propietario = @idUsuario, nombre = @nombre, descripcion = @descripcion WHERE id = @idTablero;";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);

@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Tableros"; // titulo de la pestaña
+}
+
+@model List<Tablero>
+
+<div class="container">
+    <h2>Lista Tableros</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th hidden>ID</th> <!-- oculto el id--->
+                <th>Id usuario propietario</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td hidden>@t.Id</td>
+                    <td>@t.IdUsuarioPropietario</td>
+                    <td>@t.Nombre</td>
+                    <td>@t.Descripcion</td>
+                    <td>
+                        <a asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
+                        <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a type="button" class="btn btn-primary btn-lg" asp-controller="Tablero" asp-action="Create">Crear Tablero</a>
+</div>

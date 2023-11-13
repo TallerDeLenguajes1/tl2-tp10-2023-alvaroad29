@@ -1,36 +1,39 @@
 ﻿@{
-    ViewData["Title"] = "Home Page"; // titulo de la pestaña
+    ViewData["Title"] = "Usuarios"; // titulo de la pestaña
 }
 
 @model List<Usuario>
 
-<h2>Lista Usuarios</h2>
+<div class="container">
+    <h2>Lista Usuarios</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th hidden>ID</th> <!-- oculto el id--->
-            <th>Usuario</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var usuario in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td hidden>@usuario.Id</td>
-                <td>@usuario.NombreDeUsuario</td>
-                <td>
-                    <button>
-                        <a asp-controller="Usuario" asp-action="Update" asp-route-id="@usuario.Id">Modificar</a>
-                    </button>
-                    <!-- asp-controller = nombre del controlador -->
-                    <!-- asp-action = nombre del metodo de accion (los que estan en el controlador) -->
-                    <!-- asp-route-id = nombre del parametro -->
-                    <button>
-                        <a asp-controller="Usuario" asp-action="Delete" asp-route-id="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>  
-                    </button>
-                </td>
+                <th hidden>ID</th> <!-- oculto el id--->
+                <th>Usuario</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td hidden>@usuario.Id</td>
+                    <td>@usuario.NombreDeUsuario</td>
+                    <td>
+
+                            <a asp-controller="Usuario" asp-action="Update" asp-route-id="@usuario.Id" class="btn btn-primary">Modificar</a>
+
+                        <!-- asp-controller = nombre del controlador -->
+                        <!-- asp-action = nombre del metodo de accion (los que estan en el controlador) -->
+                        <!-- asp-route-id = nombre del parametro -->
+
+                            <a asp-controller="Usuario" asp-action="Delete" asp-route-id="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a type="button" class="btn btn-primary btn-lg" asp-controller="Usuario" asp-action="Create">Crear Usuario</a>
+</div>
