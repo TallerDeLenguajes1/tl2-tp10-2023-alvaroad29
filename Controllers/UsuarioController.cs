@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_alvaroad29.Models;
+using tl2_tp10_2023_alvaroad29.ViewModels;
 
 namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class UsuarioController : Controller
@@ -15,13 +16,16 @@ public class UsuarioController : Controller
 
     public IActionResult Index() // listo los usuarios
     {
-        return View(usuarioRepository.GetAll());
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+        if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
+        return View(new ListaUsuariosViewModel(usuarioRepository.GetAll()));
     }
 
     [HttpGet]
     public IActionResult Create() // vista del form para ingresar
     {
-        return View(new Usuario()); //??
+        //if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+        return View(new CrearUsuarioViewModel());
     }
 
     [HttpPost]
@@ -32,9 +36,10 @@ public class UsuarioController : Controller
     }
 
     [HttpGet]
-    public IActionResult Update(int id) // tiene que coincidir con el asp-route-{nombre} del button?
+    public IActionResult Update(int id) // tiene que coincidir con el asp-route-{nombre} 
     {  
-        return View(usuarioRepository.GetById(id));
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+        return View(new ActualizarUsuarioViewModel(usuarioRepository.GetById(id)));
     }
 
     [HttpPost]
@@ -45,9 +50,13 @@ public class UsuarioController : Controller
 
     [HttpGet]
     public IActionResult Delete(int id) {
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         usuarioRepository.Remove(id);
         return RedirectToAction("Index");
     }
+
+    private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
+    private bool EstaLogeado() => !String.IsNullOrEmpty(HttpContext.Session.GetString("Usuario"));
 
     // public IActionResult Privacy()
     // {

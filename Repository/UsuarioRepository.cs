@@ -11,11 +11,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
         private string cadenaConexion = "Data Source=DB/kanban.db;Cache=Shared";
         public void Create(Usuario usuario)
         {
-            var query = $"INSERT INTO usuario (nombre_de_usuario) VALUES (@name);";
+            var query = $"INSERT INTO usuario (nombre_de_usuario, contrasenia, rol) VALUES (@name,@contra,@rol);";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);
                 command.Parameters.Add(new SQLiteParameter("@name", usuario.NombreDeUsuario));
+                command.Parameters.Add(new SQLiteParameter("@contra", usuario.Contrasenia));
+                command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                 connection.Open();
                 command.ExecuteNonQuery(); // INSERT, DELETE, UPDATE, no retorna nada
                 connection.Close();   
@@ -23,11 +25,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
         }   
         public void Update(int id, Usuario usuario)
         {
-            var query = $"update Usuario set nombre_de_usuario = @nuevoNombre WHERE id = @id";
+            var query = $"update Usuario set nombre_de_usuario = @nuevoNombre, rol = @rol, contrasenia =  @contra WHERE id = @id";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);
                 command.Parameters.Add(new SQLiteParameter("@nuevoNombre", usuario.NombreDeUsuario));
+                command.Parameters.Add(new SQLiteParameter("@contra", usuario.Contrasenia));
+                command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -50,6 +54,8 @@ namespace tl2_tp10_2023_alvaroad29.Models
                         var usuario = new Usuario();
                         usuario.Id = Convert.ToInt32(reader["id"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        usuario.Contrasenia = reader["contrasenia"].ToString();
+                        usuario.Rol = (enumRol)Convert.ToInt32(reader["rol"].ToString());
                         usuarios.Add(usuario);
                     }
                 }

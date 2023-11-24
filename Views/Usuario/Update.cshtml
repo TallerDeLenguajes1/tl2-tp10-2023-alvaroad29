@@ -1,14 +1,21 @@
-
-@model Usuario
+@using tl2_tp10_2023_alvaroad29.ViewModels
+@model ActualizarUsuarioViewModel
 
 <div class="container">
     <form asp-controller="Usuario" asp-action="Update">
         <input hidden asp-for="@Model.Id"> <!--envio el id -->
-        <div class="mb-3">
-            <label asp-for="@Model.NombreDeUsuario">Ingrese el nuevo nombre de usuario</label>
-            <input asp-for="@Model.NombreDeUsuario" class="form-control"/>
-        </div>
-
+    <div class="mb-3">
+        <label asp-for="@Model.NombreDeUsuario"></label>
+        <input asp-for="@Model.NombreDeUsuario" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Contrasenia"></label>
+        <input asp-for="@Model.Contrasenia" class="form-control"/>
+    </div>
+    <div>
+        <label asp-for="@Model.Rol"></label>
+        <select asp-for="@Model.Rol" class="form-control" asp-items="@Html.GetEnumSelectList<enumRol>()"></select>
+    </div>
         <button type="submit"  class="btn btn-primary">Enviar</button>
     </form>
 </div>

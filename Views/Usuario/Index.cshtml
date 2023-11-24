@@ -2,7 +2,9 @@
     ViewData["Title"] = "Usuarios"; // titulo de la pestaña
 }
 
-@model List<Usuario>
+@using tl2_tp10_2023_alvaroad29.ViewModels
+
+@model ListaUsuariosViewModel
 
 <div class="container">
     <h2>Lista Usuarios</h2>
@@ -12,24 +14,19 @@
             <tr>
                 <th hidden>ID</th> <!-- oculto el id--->
                 <th>Usuario</th>
+                <th>Rol</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var usuario in Model)
+            @foreach (var usuario in Model.UsuariosVM)
             {
                 <tr>
                     <td hidden>@usuario.Id</td>
                     <td>@usuario.NombreDeUsuario</td>
+                    <td>@usuario.Rol.ToString()</td>
                     <td>
-
                             <a asp-controller="Usuario" asp-action="Update" asp-route-id="@usuario.Id" class="btn btn-primary">Modificar</a>
-
-                        <!-- asp-controller = nombre del controlador -->
-                        <!-- asp-action = nombre del metodo de accion (los que estan en el controlador) -->
-                        <!-- asp-route-id = nombre del parametro -->
-
                             <a asp-controller="Usuario" asp-action="Delete" asp-route-id="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
-
                     </td>
                 </tr>
             }

@@ -15,12 +15,14 @@ public class TareaController : Controller
 
     public IActionResult Index() 
     {
-        return View(tareaRepository.GetAllByIdTablero(1));
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+        return View(tareaRepository.GetAllByIdTablero(1)); // ???
     }
 
     [HttpGet]
     public IActionResult Create()
     {
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         var tarea = new Tarea();
         tarea.Id_tablero = 1;
         return View(tarea); 
@@ -29,6 +31,7 @@ public class TareaController : Controller
     [HttpPost]
     public IActionResult Create(Tarea tarea)
     {
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         tareaRepository.Create(tarea.Id_tablero, tarea);
         return RedirectToAction("Index");
     }
@@ -36,20 +39,27 @@ public class TareaController : Controller
     [HttpGet]
     public IActionResult Update(int id)
     {  
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         return View(tareaRepository.GetById(id));
     }
 
     [HttpPost]
     public IActionResult Update(Tarea tarea) {
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         tareaRepository.Update(tarea.Id, tarea);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult Delete(int id) {
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         tareaRepository.Remove(id);
         return RedirectToAction("Index");
     }
+
+    private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
+    private bool EstaLogeado() => !String.IsNullOrEmpty(HttpContext.Session.GetString("Usuario"));
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
