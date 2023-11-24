@@ -7,18 +7,18 @@ namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
-    private IUsuarioRepository usuarioRepository;
-    public UsuarioController(ILogger<UsuarioController> logger)
+    private readonly IUsuarioRepository _usuarioRepository;
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository usuarioRepository)
     {
         _logger = logger;
-        usuarioRepository = new UsuarioRepository();
+        _usuarioRepository = usuarioRepository;
     }
 
     public IActionResult Index() // listo los usuarios
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        return View(new ListaUsuariosViewModel(usuarioRepository.GetAll()));
+        return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
     }
 
     [HttpGet]
@@ -31,7 +31,8 @@ public class UsuarioController : Controller
     [HttpPost]
     public IActionResult Create(Usuario usuario) // dsp de enviar el form
     {
-        usuarioRepository.Create(usuario);
+        if(!ModelState.IsValid) return RedirectToAction("Create");
+        _usuarioRepository.Create(usuario);
         return RedirectToAction("Index");
     }
 
@@ -39,19 +40,20 @@ public class UsuarioController : Controller
     public IActionResult Update(int id) // tiene que coincidir con el asp-route-{nombre} 
     {  
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        return View(new ActualizarUsuarioViewModel(usuarioRepository.GetById(id)));
+        return View(new ActualizarUsuarioViewModel(_usuarioRepository.GetById(id)));
     }
 
     [HttpPost]
     public IActionResult Update(Usuario usuario) {
-        usuarioRepository.Update(usuario.Id, usuario);
+        if(!ModelState.IsValid) return RedirectToAction("Update");
+        _usuarioRepository.Update(usuario.Id, usuario);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult Delete(int id) {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        usuarioRepository.Remove(id);
+        _usuarioRepository.Remove(id);
         return RedirectToAction("Index");
     }
 

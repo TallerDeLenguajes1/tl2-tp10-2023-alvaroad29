@@ -6,19 +6,25 @@
     <div class="form-group">
         <label asp-for="@Model.Nombre">Nombre</label>
         <input asp-for="@Model.Nombre" class="form-control" />
+        <span asp-validation-for="@Model.Nombre" class="text-danger"></span>    
     </div>
     <div class="form-group">
         <label asp-for="@Model.Descripcion">Descripcion</label>
         <input asp-for="@Model.Descripcion" class="form-control" />
+        <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>    
     </div>
     <div class="form-group">
         <label asp-for="@Model.Color">Color</label>
         <input asp-for="@Model.Color" class="form-control" />
+        <span asp-validation-for="@Model.Color" class="text-danger"></span>    
     </div>
     <div >
         <label asp-for="@Model.Estado">Estado</label>
         <select asp-for="@Model.Estado" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
         </select>
+        <span asp-validation-for="@Model.Estado" class="text-danger"></span> 
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

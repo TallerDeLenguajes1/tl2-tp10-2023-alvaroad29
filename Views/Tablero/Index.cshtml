@@ -2,7 +2,9 @@
     ViewData["Title"] = "Tableros"; // titulo de la pestaña
 }
 
-@model List<Tablero>
+@using tl2_tp10_2023_alvaroad29.ViewModels
+
+@model ListaTablerosViewModel
 
 <div class="container">
     <h2>Lista Tableros</h2>
@@ -17,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var t in Model)
+            @foreach (var t in Model.TablerosVM)
             {
                 <tr>
                     <td hidden>@t.Id</td>
@@ -26,7 +28,8 @@
                     <td>@t.Descripcion</td>
                     <td>
                         <a asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
-                        <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
+                        <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>
+                        <a asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id" class="btn btn-primary">Ver Tareas</a>  
                     </td>
                 </tr>
             }

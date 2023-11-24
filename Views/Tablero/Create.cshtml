@@ -1,18 +1,27 @@
-@model Tablero
+@using tl2_tp10_2023_alvaroad29.ViewModels
+@model CrearTableroViewModel
 
 <form asp-controller="Tablero" asp-action="Create">
-    @* <div class="form-group">
-        <label asp-for="@Model.IdUsuarioPropietario">Id usuario propietario</label>
-        <input asp-for="@Model.IdUsuarioPropietario" class="form-control" />
-    </div> *@
-    <input hidden asp-for="@Model.IdUsuarioPropietario">
+    @* <input hidden asp-for="@Model.IdUsuarioPropietario"> *@
     <div class="form-group">
         <label asp-for="@Model.Nombre">Nombre</label>
         <input asp-for="@Model.Nombre" class="form-control" />
+        <span asp-validation-for="@Model.Nombre" class="text-danger"></span>    
     </div>
+    <label asp-for="@Model.IdUsuarioPropietario">Usuario propietario</label>
+    <select asp-for="@Model.IdUsuarioPropietario" class="form-control">
+        @foreach (var usuario in Model.usuarios)
+        {
+            <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
+        }
+    </select>
+    <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>    
     <div class="form-group">
         <label asp-for="@Model.Descripcion">Descripcion</label>
         <input asp-for="@Model.Descripcion" class="form-control" />
+        <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>    
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

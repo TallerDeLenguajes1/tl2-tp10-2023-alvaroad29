@@ -1,16 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_alvaroad29.Models;
+using tl2_tp10_2023_alvaroad29.ViewModels;
 
 namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class TableroController : Controller
 {
     private readonly ILogger<TableroController> _logger;
-    private ITableroRepository tableroRepository;
-    public TableroController(ILogger<TableroController> logger)
+    private ITableroRepository _tableroRepository;
+    private IUsuarioRepository _usuarioRepository;
+    public TableroController(ILogger<TableroController> logger, ITableroRepository tableroRepository, IUsuarioRepository usuarioRepository)
     {
         _logger = logger;
-        tableroRepository = new TableroRepository();
+        _tableroRepository = tableroRepository;
+        _usuarioRepository = usuarioRepository;
     }
 
     public IActionResult Index() 
@@ -19,9 +22,9 @@ public class TableroController : Controller
 
         if (!IsAdmin())
         {
-            return View(tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id"))));
+            return View(new ListaTablerosViewModel(_tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id")))));
         }else{
-            return View(tableroRepository.GetAll());
+            return View(new ListaTablerosViewModel(_tableroRepository.GetAll()));
         }
     }
 
@@ -29,16 +32,16 @@ public class TableroController : Controller
     public IActionResult Create()
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        Tablero t = new Tablero();
-        t.IdUsuarioPropietario = 99;
-        return View(t); 
+        List<Usuario> usuarios = _usuarioRepository.GetAll();
+        return View(new CrearTableroViewModel(new ListaUsuariosViewModel(usuarios).UsuariosVM)); 
     }
 
     [HttpPost]
     public IActionResult Create(Tablero tablero)
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        tableroRepository.Create(tablero);
+        if(!ModelState.IsValid) return RedirectToAction("Create");
+        _tableroRepository.Create(tablero);
         return RedirectToAction("Index");
     }
 
@@ -46,10 +49,10 @@ public class TableroController : Controller
     public IActionResult Update(int id)
     {  
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if(IsAdmin()) return View(tableroRepository.GetById(id));
-        if (tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) // que el usuario que modifique el tablero sea al cual pertenece el tablero
+        if(IsAdmin()) return View(new ActualizarTableroViewModel(_tableroRepository.GetById(id)));
+        if (_tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) // que el usuario que modifique el tablero sea al cual pertenece el tablero
         {
-            return View(tableroRepository.GetById(id));
+            return View(new ActualizarTableroViewModel(_tableroRepository.GetById(id)));
         }else
         {
             return RedirectToAction("Error");
@@ -60,14 +63,15 @@ public class TableroController : Controller
     [HttpPost]
     public IActionResult Update(Tablero tablero) {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        tableroRepository.Update(tablero.Id, tablero);
+        if(!ModelState.IsValid) return RedirectToAction("Update");
+        _tableroRepository.Update(tablero.Id, tablero);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult Delete(int id) {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        tableroRepository.Remove(id);
+        _tableroRepository.Remove(id);
         return RedirectToAction("Index");
     }
 

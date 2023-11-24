@@ -7,11 +7,11 @@ namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
-    private IUsuarioRepository usuarioRepository;
-    public LoginController(ILogger<LoginController> logger)
+    private IUsuarioRepository _usuarioRepository;
+    public LoginController(ILogger<LoginController> logger, IUsuarioRepository usuarioRepository)
     {
         _logger = logger;
-        usuarioRepository = new UsuarioRepository();
+        _usuarioRepository = usuarioRepository;
     }
 
     [HttpGet]
@@ -25,7 +25,7 @@ public class LoginController : Controller
     public IActionResult Login(Usuario usuario) // LoginViewModel
     {
         //existe el usuario?
-        var usuarios = usuarioRepository.GetAll();
+        var usuarios = _usuarioRepository.GetAll();
 
         var usuarioLogeado = usuarios.FirstOrDefault(u => u.NombreDeUsuario == usuario.NombreDeUsuario && u.Contrasenia == usuario.Contrasenia);
 
