@@ -1,17 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Tareas"; // titulo de la pestaña
 }
+@using tl2_tp10_2023_alvaroad29.ViewModels
 
-@model List<Tarea>
+@model ListarTareasViewModel
 
 <div class="container">
-    <h2>Lista Tareas</h2>
+    <h2>Lista Tareas - tablero : @Model.NombreTablero</h2>
 
     <table class="table">
         <thead>
             <tr>
                 <th hidden>ID</th> <!-- oculto el id--->
-                <th>Id tablero</th>
+                <th hidden>Id tablero</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Color</th>
@@ -20,16 +21,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var t in Model)
+            @foreach (var t in Model.TareasVM)
             {
                 <tr>
                     <td hidden>@t.Id</td>
-                    <td>@t.Id_tablero</td>
+                    <td hidden>@t.Id_tablero</td>
                     <td>@t.Nombre</td>
                     <td>@t.Descripcion</td>
                     <td>@t.Color</td>
                     <td>@t.Estado</td>
-                    <td>@t.IdUsuarioAsignado</td>
+                    <td>@t.NombreUsuarioPropietario</td>
                     <td>
                         <a asp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
                         <a asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  

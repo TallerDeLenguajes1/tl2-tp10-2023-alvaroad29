@@ -121,7 +121,14 @@ namespace tl2_tp10_2023_alvaroad29.Models
                         tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]);
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] as int?; //si es null da problemas
+                        if (!reader.IsDBNull(6))
+                        {
+                            tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        }
+                        else
+                        {
+                            tarea.IdUsuarioAsignado = null;
+                        }
                         tareas.Add(tarea);
                     }
                 }

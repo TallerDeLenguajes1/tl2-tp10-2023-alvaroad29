@@ -7,8 +7,8 @@ namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class TableroController : Controller
 {
     private readonly ILogger<TableroController> _logger;
-    private ITableroRepository _tableroRepository;
-    private IUsuarioRepository _usuarioRepository;
+    private readonly ITableroRepository _tableroRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
     public TableroController(ILogger<TableroController> logger, ITableroRepository tableroRepository, IUsuarioRepository usuarioRepository)
     {
         _logger = logger;

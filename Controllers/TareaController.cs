@@ -1,22 +1,28 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_alvaroad29.Models;
+using tl2_tp10_2023_alvaroad29.ViewModels;
 
 namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class TareaController : Controller
 {
     private readonly ILogger<TareaController> _logger;
-    private ITareaRepository _tareaRepository;
-    public TareaController(ILogger<TareaController> logger, ITareaRepository tareaRepository)
+    private readonly ITareaRepository _tareaRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
+
+    private readonly ITableroRepository _tableroRepository;
+    public TareaController(ILogger<TareaController> logger, ITareaRepository tareaRepository,  IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository)
     {
         _logger = logger;
         _tareaRepository = tareaRepository;
+        _usuarioRepository = usuarioRepository;
+        _tableroRepository = tableroRepository;
     }
 
     public IActionResult Index(int id) 
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        return View(_tareaRepository.GetAllByIdTablero(id)); 
+        return View(new ListarTareasViewModel(_tareaRepository.GetAllByIdTablero(id), _usuarioRepository.GetAll(),_tableroRepository.GetById(id)?.Nombre)); 
     }
 
     [HttpGet]
