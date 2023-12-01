@@ -22,9 +22,9 @@ public class TableroController : Controller
 
         if (!IsAdmin())
         {
-            return View(new ListaTablerosViewModel(_tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id")))));
+            return View(new ListaTablerosViewModel(_tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id"))), _usuarioRepository.GetAll()));
         }else{
-            return View(new ListaTablerosViewModel(_tableroRepository.GetAll()));
+            return View(new ListaTablerosViewModel(_tableroRepository.GetAll(), _usuarioRepository.GetAll()));
         }
     }
 
@@ -37,11 +37,11 @@ public class TableroController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Tablero tablero)
+    public IActionResult Create(CrearTableroViewModel tablero)
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         if(!ModelState.IsValid) return RedirectToAction("Create");
-        _tableroRepository.Create(tablero);
+        //_tableroRepository.Create(tablero);
         return RedirectToAction("Index");
     }
 

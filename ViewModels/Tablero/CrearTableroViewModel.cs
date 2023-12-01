@@ -18,13 +18,13 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
 
-        public List<UsuarioViewModel> usuarios;
+        public List<UsuarioViewModel> Usuarios{get; set; }
         public CrearTableroViewModel(List<UsuarioViewModel> usuarios)
         {
             //Nombre = tablero.Nombre;
             //IdUsuarioPropietario = usuario.Id;
             //Descripcion = tablero.Descripcion;
-            this.usuarios = usuarios;
+            this.Usuarios = usuarios;
         }
         public CrearTableroViewModel()
         {

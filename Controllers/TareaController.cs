@@ -22,15 +22,15 @@ public class TareaController : Controller
     public IActionResult Index(int id) 
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        return View(new ListarTareasViewModel(_tareaRepository.GetAllByIdTablero(id), _usuarioRepository.GetAll(),_tableroRepository.GetById(id)?.Nombre)); 
+        return View(new ListarTareasViewModel(_tareaRepository.GetAllByIdTablero(id), _usuarioRepository.GetAll(),new TableroViewModel(_tableroRepository.GetById(id)))); 
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Create(int id)
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        var tarea = new Tarea();
-        tarea.Id_tablero = 1;
+        var tarea = new CrearTareaViewModel();
+        tarea.Id_tablero = id;
         return View(tarea); 
     }
 
@@ -40,7 +40,7 @@ public class TareaController : Controller
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         if(!ModelState.IsValid) return RedirectToAction("Create");
         _tareaRepository.Create(tarea.Id_tablero, tarea);
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", new{id = tarea.Id_tablero});
     }
 
     [HttpGet]
@@ -48,14 +48,15 @@ public class TareaController : Controller
     {  
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         if(!ModelState.IsValid) return RedirectToAction("Update");
-        return View(_tareaRepository.GetById(id));
+        return View(new ActualizarTareaViewModel(_tareaRepository.GetById(id), _usuarioRepository.GetAll() ));
     }
 
     [HttpPost]
-    public IActionResult Update(Tarea tarea) {
+    public IActionResult Update(ActualizarTareaViewModel tarea) {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        _tareaRepository.Update(tarea.Id, tarea);
-        return RedirectToAction("Index");
+        Tarea tarea1 = new Tarea(tarea);
+        _tareaRepository.Update(tarea1.Id, tarea1);
+        return RedirectToAction("Index", new{id = tarea1.Id_tablero});
     }
 
     [HttpGet]

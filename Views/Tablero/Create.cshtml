@@ -10,7 +10,7 @@
     </div>
     <label asp-for="@Model.IdUsuarioPropietario">Usuario propietario</label>
     <select asp-for="@Model.IdUsuarioPropietario" class="form-control">
-        @foreach (var usuario in Model.usuarios)
+        @foreach (var usuario in Model.Usuarios)
         {
             <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
         }

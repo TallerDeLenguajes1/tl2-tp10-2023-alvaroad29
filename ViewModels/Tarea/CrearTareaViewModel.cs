@@ -1,50 +1,32 @@
 using System.ComponentModel.DataAnnotations;
 using tl2_tp10_2023_alvaroad29.Models;
-
 namespace tl2_tp10_2023_alvaroad29.ViewModels
 {
-    public class TareaViewModel
+    public class CrearTareaViewModel
     {
-        int id;
         int id_tablero;
         string nombre;
         string descripcion;
         string color;
         EstadoTarea estado;
         int? idUsuarioAsignado;
-        string nombreUsuarioPropietario;
-
-        public int Id { get => id; set => id = value; }
 
         [Required(ErrorMessage = "Este campo es requerido.")]
-        [Display(Name = "Nombre ")]
         public string Nombre { get => nombre; set => nombre = value; }
 
+        [Required(ErrorMessage = "Este campo es requerido.")]
         public string Descripcion { get => descripcion; set => descripcion = value; }
 
-        public string Color { get => color; set => color = value; }
-
         [Required(ErrorMessage = "Este campo es requerido.")]
-        [Display(Name = "Estado")]
-        
         public EstadoTarea Estado { get => estado; set => estado = value; }
+        public string Color { get => color; set => color = value; }
         public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
         public int Id_tablero { get => id_tablero; set => id_tablero = value; }
-        public string NombreUsuarioPropietario { get => nombreUsuarioPropietario; set => nombreUsuarioPropietario = value; }
 
-        public TareaViewModel(Tarea tarea)
+        public CrearTareaViewModel()
         {
-            Id = tarea.Id;
-            Id_tablero = tarea.Id_tablero;
-            Nombre = tarea.Nombre;
-            Descripcion = tarea.Descripcion;
-            Color = tarea.Color;
-            Estado = tarea.Estado;
-            IdUsuarioAsignado = tarea.IdUsuarioAsignado;
-        }
 
-        public TareaViewModel()
-        {
         }
+        
     }
 }

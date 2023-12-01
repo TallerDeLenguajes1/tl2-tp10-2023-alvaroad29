@@ -5,13 +5,15 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
     public class ListarTareasViewModel
     {
         public string NombreTablero { get; set; }
-        public List<TareaViewModel> TareasVM { get => tareasVM; set => tareasVM = value; }
+        public int Id_tablero { get; set; }
         List<TareaViewModel> tareasVM;
+        public List<TareaViewModel> TareasVM { get => tareasVM; set => tareasVM = value; }
 
-        public ListarTareasViewModel(List<Tarea> tareas, List<Usuario> usuarios, string NombreTablero)
+        public ListarTareasViewModel(List<Tarea> tareas, List<Usuario> usuarios, TableroViewModel tablero)
         {
             TareasVM = new List<TareaViewModel>();
-            this.NombreTablero = NombreTablero;
+            this.NombreTablero = tablero.Nombre;
+            Id_tablero = tablero.Id;
             foreach (var t in tareas)
             {
                 TareaViewModel tareaVM = new TareaViewModel(t);

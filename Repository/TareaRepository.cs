@@ -28,7 +28,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
         public void Update(int id, Tarea tarea)
         {
-            var query = @"UPDATE Tarea SET nombre = @nombre, descripcion = @descripcion, color = @color, estado = @estado WHERE id = @id";
+            var query = @"UPDATE Tarea SET nombre = @nombre, descripcion = @descripcion, color = @color, estado = @estado, id_usuario_asignado = @id_usuario WHERE id = @id";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);
@@ -36,6 +36,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@descripcion", tarea.Descripcion));
                 command.Parameters.Add(new SQLiteParameter("@estado", tarea.Estado));
                 command.Parameters.Add(new SQLiteParameter("@color", tarea.Color));
+                command.Parameters.Add(new SQLiteParameter("@id_usuario", tarea.IdUsuarioAsignado));
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
                 command.ExecuteNonQuery();

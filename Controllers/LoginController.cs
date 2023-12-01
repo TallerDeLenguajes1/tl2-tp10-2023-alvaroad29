@@ -30,8 +30,13 @@ public class LoginController : Controller
         var usuarioLogeado = usuarios.FirstOrDefault(u => u.NombreDeUsuario == usuario.NombreDeUsuario && u.Contrasenia == usuario.Contrasenia);
 
         // si el usuario no existe devuelvo al index
-        if (usuarioLogeado == null) return RedirectToAction("Index"); //el formulario
+        if (usuarioLogeado == null){
+            _logger.LogWarning("Intento de acceso invalido - Usuario: " + usuario.NombreDeUsuario + " Clave ingresada: " + usuario.Contrasenia);
+            return RedirectToAction("Index"); //el formulario
+        }    
         
+        _logger.LogInformation("El usuario: " + usuario.NombreDeUsuario + " Ingreso correctamente");
+
         //Registro el usuario (creo la sesion)
         logearUsuario(usuarioLogeado);
         
