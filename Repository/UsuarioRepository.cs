@@ -8,7 +8,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private string cadenaConexion = "Data Source=DB/kanban.db;Cache=Shared";
+        private readonly string cadenaConexion;
+
+        public UsuarioRepository(string cadenaConexion)
+        {
+            this.cadenaConexion = cadenaConexion;
+        }
+
         public void Create(Usuario usuario)
         {
             var query = $"INSERT INTO usuario (nombre_de_usuario, contrasenia, rol) VALUES (@name,@contra,@rol);";
@@ -78,6 +84,8 @@ namespace tl2_tp10_2023_alvaroad29.Models
                     {
                         usuario.Id = Convert.ToInt32(reader["id"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        usuario.Contrasenia = reader["contrasenia"].ToString();
+                        usuario.Rol = (enumRol)Convert.ToInt32(reader["rol"].ToString());
                     }
                 }
                 connection.Close();
@@ -96,6 +104,33 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.ExecuteNonQuery();
                 connection.Close();
             }
+        }
+
+        public Usuario Login(string nombre, string contrasenia)
+        {
+            Usuario usuario = null;
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM usuario WHERE nombre_de_usuario = @nombre AND contrasenia = @contrasenia;";
+                command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
+                command.Parameters.Add(new SQLiteParameter("@contrasenia", contrasenia));
+                connection.Open();
+                using(SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        usuario = new Usuario();
+                        usuario.Id = Convert.ToInt32(reader["id"]);
+                        usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        usuario.Contrasenia = reader["contrasenia"].ToString();
+                        usuario.Rol = (enumRol)Convert.ToInt32(reader["rol"].ToString());
+                    }
+                }
+                connection.Close();
+            }
+
+            return usuario;
         }
     }
 }

@@ -12,11 +12,20 @@ namespace tl2_tp10_2023_alvaroad29.Models
         public string Contrasenia{get;set;}
         public enumRol Rol{get;set;}
 
-        // public Usuario(LoginViewModel loginViewModel)
-        // {          
-        //     NombreDeUsuario = loginViewModel.NombreDeUsuario;
-        //     Contrasenia = loginViewModel.Contrasenia;
-        // }
+        public Usuario(CrearUsuarioViewModel u)
+        {          
+            NombreDeUsuario = u.NombreDeUsuario;
+            Contrasenia = u.Contrasenia;
+            Rol = u.Rol;
+        }
+
+        public Usuario(ActualizarUsuarioViewModel u)
+        {          
+            NombreDeUsuario = u.NombreDeUsuario;
+            Contrasenia = u.Contrasenia;
+            Rol = u.Rol;
+            Id = u.Id;
+        }
 
         public Usuario()
         {

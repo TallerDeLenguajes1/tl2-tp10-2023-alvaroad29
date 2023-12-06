@@ -6,7 +6,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
     {
         public int Id{get;set;} 
         public string NombreDeUsuario{get;set;} 
-        public enumRol Rol{get;set;}
+        public enumRol Rol {get;set;}
 
         public UsuarioViewModel(Usuario usuario){
 

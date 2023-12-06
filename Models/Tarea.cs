@@ -26,13 +26,23 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
         public Tarea(ActualizarTareaViewModel tareaVM)
         {
-            Color = tareaVM.TareaVM.Color;
-            Descripcion = tareaVM.TareaVM.Descripcion;
-            Estado = tareaVM.TareaVM.Estado;
-            Nombre = tareaVM.TareaVM.Nombre;
-            Id_tablero = tareaVM.TareaVM.Id_tablero;
-            IdUsuarioAsignado = tareaVM.TareaVM.IdUsuarioAsignado;
-            Id = tareaVM.TareaVM.Id;
+            Color = tareaVM.Color;
+            Descripcion = tareaVM.Descripcion;
+            Estado = tareaVM.Estado;
+            Nombre = tareaVM.Nombre;
+            Id_tablero = tareaVM.Id_tablero;
+            IdUsuarioAsignado = tareaVM.IdUsuarioAsignado;
+            Id = tareaVM.Id;
+        }
+
+        public Tarea(CrearTareaViewModel tareaVM)
+        {
+            Color = tareaVM.Color;
+            Descripcion = tareaVM.Descripcion;
+            Estado = tareaVM.Estado;
+            Nombre = tareaVM.Nombre;
+            Id_tablero = tareaVM.Id_tablero;
+            IdUsuarioAsignado = tareaVM.IdUsuarioAsignado;
         }
         public Tarea()
         {

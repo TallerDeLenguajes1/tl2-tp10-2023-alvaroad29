@@ -24,6 +24,15 @@
         </select>
         <span asp-validation-for="@Model.Estado" class="text-danger"></span> 
     </div>
+    <label asp-for="@Model.IdUsuarioAsignado">Usuario asignado</label>
+    <select asp-for="@Model.IdUsuarioAsignado" class="form-control">
+        <option selected value = "0">Sin Asignar</option>
+        @foreach (var usuario in Model.Usuarios)
+        {
+            <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
+        }
+    </select>
+    <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span> 
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
 

@@ -7,7 +7,7 @@ namespace tl2_tp10_2023_alvaroad29.Controllers;
 public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
-    private IUsuarioRepository _usuarioRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
     public LoginController(ILogger<LoginController> logger, IUsuarioRepository usuarioRepository)
     {
         _logger = logger;
@@ -15,33 +15,42 @@ public class LoginController : Controller
     }
 
     [HttpGet]
-
     public IActionResult Index()
     {
         return View(new LoginViewModel());
     }
 
     [HttpPost]
-    public IActionResult Login(Usuario usuario) // LoginViewModel
+    public IActionResult Login(LoginViewModel usuario) // LoginViewModel
     {
-        //existe el usuario?
-        var usuarios = _usuarioRepository.GetAll();
+        try
+        {
+            //existe el usuario?
+            if(!ModelState.IsValid) return RedirectToAction("Index");
 
-        var usuarioLogeado = usuarios.FirstOrDefault(u => u.NombreDeUsuario == usuario.NombreDeUsuario && u.Contrasenia == usuario.Contrasenia);
+            var usuarioLogeado = _usuarioRepository.Login(usuario.NombreDeUsuario, usuario.Contrasenia);
 
-        // si el usuario no existe devuelvo al index
-        if (usuarioLogeado == null){
-            _logger.LogWarning("Intento de acceso invalido - Usuario: " + usuario.NombreDeUsuario + " Clave ingresada: " + usuario.Contrasenia);
-            return RedirectToAction("Index"); //el formulario
-        }    
+            // si el usuario no existe devuelvo al index
+            if (usuarioLogeado == null){
+                _logger.LogWarning("Intento de acceso invalido - Usuario: " + usuario.NombreDeUsuario + " Clave ingresada: " + usuario.Contrasenia);
+                return RedirectToAction("Index"); //el formulario
+            }    
+
+            _logger.LogInformation("El usuario: " + usuario.NombreDeUsuario + " Ingreso correctamente");
+
+            //Registro el usuario (creo la sesion)
+            logearUsuario(usuarioLogeado);
+
+            //Devuelvo el usuario al Home
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
         
-        _logger.LogInformation("El usuario: " + usuario.NombreDeUsuario + " Ingreso correctamente");
-
-        //Registro el usuario (creo la sesion)
-        logearUsuario(usuarioLogeado);
         
-        //Devuelvo el usuario al Home
-        return RedirectToRoute(new { controller = "Home", action = "Index" });
     }
 
     private void logearUsuario(Usuario user)

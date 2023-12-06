@@ -15,6 +15,13 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                 UsuariosVM.Add(usuarioVM);
             }
         }
+
+        public ListaUsuariosViewModel(Usuario usuario)
+        {
+            UsuariosVM = new List<UsuarioViewModel>();
+            UsuarioViewModel usuarioVM = new UsuarioViewModel(usuario);
+            UsuariosVM.Add(usuarioVM);
+        }
         public List<UsuarioViewModel> UsuariosVM { get => usuariosVM; set => usuariosVM = value; }
     }
 }

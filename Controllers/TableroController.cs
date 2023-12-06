@@ -32,16 +32,16 @@ public class TableroController : Controller
     public IActionResult Create()
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        List<Usuario> usuarios = _usuarioRepository.GetAll();
-        return View(new CrearTableroViewModel(new ListaUsuariosViewModel(usuarios).UsuariosVM)); 
+        return View(new CrearTableroViewModel(_usuarioRepository.GetAll())); 
     }
 
     [HttpPost]
-    public IActionResult Create(CrearTableroViewModel tablero)
+    public IActionResult Create(CrearTableroViewModel t)
     {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
         if(!ModelState.IsValid) return RedirectToAction("Create");
-        //_tableroRepository.Create(tablero);
+        Tablero tablero = new Tablero(t);
+        _tableroRepository.Create(tablero);
         return RedirectToAction("Index");
     }
 
@@ -49,10 +49,27 @@ public class TableroController : Controller
     public IActionResult Update(int id)
     {  
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if(IsAdmin()) return View(new ActualizarTableroViewModel(_tableroRepository.GetById(id)));
-        if (_tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) // que el usuario que modifique el tablero sea al cual pertenece el tablero
+        Tablero nuevoTablero= _tableroRepository.GetById(id); 
+        if (IsAdmin() || nuevoTablero.IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) 
         {
-            return View(new ActualizarTableroViewModel(_tableroRepository.GetById(id)));
+            return View(new ActualizarTableroViewModel(nuevoTablero));
+        }else
+        {
+            return RedirectToAction("Error");
+        }
+    }
+
+    [HttpPost]
+    public IActionResult Update(ActualizarTableroViewModel t) {
+        
+        if(!ModelState.IsValid) return RedirectToAction("Update");
+        
+        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); // son necesarios estos controles en el post?
+        if (IsAdmin() || t.IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        {
+            Tablero tablero = new Tablero(t);
+            _tableroRepository.Update(tablero.Id, tablero);
+            return RedirectToAction("Index");
         }else
         {
             return RedirectToAction("Error");
@@ -60,19 +77,18 @@ public class TableroController : Controller
         
     }
 
-    [HttpPost]
-    public IActionResult Update(Tablero tablero) {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if(!ModelState.IsValid) return RedirectToAction("Update");
-        _tableroRepository.Update(tablero.Id, tablero);
-        return RedirectToAction("Index");
-    }
-
     [HttpGet]
     public IActionResult Delete(int id) {
         if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        _tableroRepository.Remove(id);
-        return RedirectToAction("Index");
+        if (IsAdmin() || _tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        {
+            _tableroRepository.Remove(id);
+            return RedirectToAction("Index");
+        }else
+        {
+            return RedirectToAction("Error");
+        }
+        
     }
 
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();

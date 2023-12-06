@@ -12,5 +12,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
         public List<Usuario> GetAll();
         public Usuario GetById(int id);
         public void Remove(int id); 
+
+        public Usuario Login(string nombre, string contrasenia);
     }
 }

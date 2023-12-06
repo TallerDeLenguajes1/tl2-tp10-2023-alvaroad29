@@ -8,10 +8,15 @@ namespace tl2_tp10_2023_alvaroad29.Models
 {
     public class TareaRepository : ITareaRepository
     {
-        private string cadenaConexion = "Data Source=DB/kanban.db;Cache=Shared";
+        private readonly string cadenaConexion;
+        public TareaRepository(string cadenaConexion)
+        {
+            this.cadenaConexion = cadenaConexion;
+        }
+
         public void Create(int idTablero, Tarea tarea)
         {
-            var query = @"INSERT INTO Tarea(id_tablero, nombre, estado, descripcion, color) VALUES(@idTablero,@nombre,@estado,@descripcion,@color);";
+            var query = @"INSERT INTO Tarea(id_tablero, nombre, estado, descripcion, color,id_usuario_asignado) VALUES(@idTablero, @nombre, @estado, @descripcion, @color, @id_usuario);";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);
@@ -20,6 +25,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@estado",tarea.Estado));
                 command.Parameters.Add(new SQLiteParameter("@descripcion",tarea.Descripcion));
                 command.Parameters.Add(new SQLiteParameter("@color",tarea.Color));
+                command.Parameters.Add(new SQLiteParameter("@id_usuario", tarea.IdUsuarioAsignado));
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();   
@@ -63,7 +69,14 @@ namespace tl2_tp10_2023_alvaroad29.Models
                         tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]); //?
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] as int?;
+                        if (!reader.IsDBNull(6))
+                        {
+                            tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        }
+                        else
+                        {
+                            tarea.IdUsuarioAsignado = null;
+                        }
                     }
                 }
                 connection.Close();
@@ -92,7 +105,14 @@ namespace tl2_tp10_2023_alvaroad29.Models
                         tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]);
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] as int?;
+                        if (!reader.IsDBNull(6))
+                        {
+                            tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        }
+                        else
+                        {
+                            tarea.IdUsuarioAsignado = null;
+                        }
                         tareas.Add(tarea);
                     }
                 }
@@ -159,7 +179,14 @@ namespace tl2_tp10_2023_alvaroad29.Models
                         tarea.Estado = (EstadoTarea)Convert.ToInt32(reader["estado"]);
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] as int?;
+                        if (!reader.IsDBNull(6))
+                        {
+                            tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        }
+                        else
+                        {
+                            tarea.IdUsuarioAsignado = null;
+                        }
                         tareas.Add(tarea);
                     }
                 }

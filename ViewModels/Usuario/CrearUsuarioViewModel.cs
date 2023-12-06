@@ -17,12 +17,12 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         [Display(Name = "Rol")]
         public enumRol Rol{get;set;}
 
-        public CrearUsuarioViewModel(Usuario usuario)
-        {
-            NombreDeUsuario = usuario.NombreDeUsuario;
-            Contrasenia = usuario.Contrasenia;
-            Rol = usuario.Rol;
-        }
+        // public CrearUsuarioViewModel(Usuario usuario)
+        // {
+        //     NombreDeUsuario = usuario.NombreDeUsuario;
+        //     Contrasenia = usuario.Contrasenia;
+        //     Rol = usuario.Rol;
+        // }
 
         public CrearUsuarioViewModel()
         {
