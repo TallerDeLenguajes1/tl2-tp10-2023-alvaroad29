@@ -38,14 +38,19 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@descripcion", tablero.Descripcion));
                 command.Parameters.Add(new SQLiteParameter("@idTablero", id));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Tablero a actualizar no existe");
+                }
             }
         }
 
         public Tablero GetById(int id)
         {
-            var tablero = new Tablero();
+            Tablero tablero = null;
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = connection.CreateCommand();
@@ -54,8 +59,10 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 connection.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader())
                 {
+                    
                     while (reader.Read())
                     {
+                        tablero = new Tablero();
                         tablero.Id = Convert.ToInt32(reader["id"]);
                         tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
                         tablero.Nombre = reader["nombre"].ToString();
@@ -63,6 +70,11 @@ namespace tl2_tp10_2023_alvaroad29.Models
                     }
                 }
                 connection.Close();
+            }
+
+            if (tablero == null)
+            {
+                throw new Exception("Tablero con encontrado");
             }
 
             return tablero;
@@ -128,8 +140,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.CommandText = @"DELETE FROM Tablero WHERE id = @id;";
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Tablero a eliminar no existe");
+                }
             }
         }
     }

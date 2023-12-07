@@ -14,82 +14,136 @@ public class UsuarioController : Controller
         _usuarioRepository = usuarioRepository;
     }
 
+    [HttpGet]
     public IActionResult Index() // listo los usuarios
     {
-        if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+        try
+        {
+            if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); // afuera del try?
     
-        if (IsAdmin())
-        {
-            return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
-        }else
-        {
-            ListaUsuariosViewModel usuarios = new ListaUsuariosViewModel(_usuarioRepository.GetById(Convert.ToInt32(HttpContext.Session.GetString("Id"))));
-            return View(usuarios);
+            if (IsAdmin())
+            {
+                return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
+            }else
+            {
+                ListaUsuariosViewModel usuarios = new ListaUsuariosViewModel(_usuarioRepository.GetById(Convert.ToInt32(HttpContext.Session.GetString("Id"))));
+                return View(usuarios);
+            }
         }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al acceder a los usuarios {ex.ToString()}");
+            return RedirectToAction("Error"); //?
+        }
+        
     }
 
     [HttpGet]
     public IActionResult Create() // vista del form para ingresar
     {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if(!IsAdmin()) return RedirectToAction("Error");
-        return View(new CrearUsuarioViewModel());
+        try
+        {
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            if(!IsAdmin()) return RedirectToAction("Error");
+            return View(new CrearUsuarioViewModel());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al crear usuario {ex.ToString()}");
+            return RedirectToAction("Error");
+        }
+        
     }
 
     [HttpPost]
     public IActionResult Create(CrearUsuarioViewModel u) // dsp de enviar el form
     {
-        if(!ModelState.IsValid) return RedirectToAction("Create");
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        Usuario usuario = new Usuario(u);
-        _usuarioRepository.Create(usuario);
-        return RedirectToAction("Index");
+        try
+        {
+            if(!ModelState.IsValid) return RedirectToAction("Create");
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
+
+            Usuario usuario = new Usuario(u);
+            _usuarioRepository.Create(usuario);
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al crear usuario {ex.ToString()}");
+            return RedirectToAction("Error");
+        }
+        
     }
 
     [HttpGet]
     public IActionResult Update(int id) // tiene que coincidir con el asp-route-{nombre} 
     {  
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        
-        if (IsAdmin() || id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        try
         {
-            return View(new ActualizarUsuarioViewModel(_usuarioRepository.GetById(id)));
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            
+            if (IsAdmin() || id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            {
+                return View(new ActualizarUsuarioViewModel(_usuarioRepository.GetById(id)));
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
         }
-        else
+        catch (Exception ex)
         {
+            _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
+        
     }
 
     [HttpPost]
     public IActionResult Update(ActualizarUsuarioViewModel u) {
-        
-        if(!ModelState.IsValid) return RedirectToAction("Create");
-        
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        
-        if (IsAdmin() || u.Id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        try
         {
-            Usuario usuario = new Usuario(u);
-            _usuarioRepository.Update(usuario.Id, usuario);
-            return RedirectToAction("Index");
+            if(!ModelState.IsValid) return RedirectToAction("Create");
+        
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            
+            if (IsAdmin() || u.Id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            {
+                Usuario usuario = new Usuario(u);
+                _usuarioRepository.Update(usuario.Id, usuario);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
         }
-        else
+        catch (Exception ex)
         {
+            _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
+        
     }
 
     [HttpGet]
     public IActionResult Delete(int id) {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if (IsAdmin() || id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        try
         {
-            _usuarioRepository.Remove(id);
-            return RedirectToAction("Index");
-        }else
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            if (IsAdmin() || id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            {
+                _usuarioRepository.Remove(id);
+                return RedirectToAction("Index");
+            }else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+        catch (Exception ex)
         {
+            _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
         

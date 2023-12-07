@@ -16,62 +16,102 @@ public class TableroController : Controller
         _usuarioRepository = usuarioRepository;
     }
 
+    [HttpGet]
     public IActionResult Index() 
     {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-
-        if (!IsAdmin())
+        try
         {
-            return View(new ListaTablerosViewModel(_tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id"))), _usuarioRepository.GetAll()));
-        }else{
-            return View(new ListaTablerosViewModel(_tableroRepository.GetAll(), _usuarioRepository.GetAll()));
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+
+            if (!IsAdmin())
+            {
+                return View(new ListaTablerosViewModel(_tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id"))), _usuarioRepository.GetAll()));
+            }else{
+                return View(new ListaTablerosViewModel(_tableroRepository.GetAll(), _usuarioRepository.GetAll()));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al acceder a los tableros {ex.ToString()}");
+            return RedirectToAction("Error"); //?
         }
     }
 
     [HttpGet]
     public IActionResult Create()
     {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        return View(new CrearTableroViewModel(_usuarioRepository.GetAll())); 
+        try
+        {
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            return View(new CrearTableroViewModel(_usuarioRepository.GetAll())); 
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al crear tablero{ex.ToString()}");
+            return RedirectToAction("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult Create(CrearTableroViewModel t)
     {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if(!ModelState.IsValid) return RedirectToAction("Create");
-        Tablero tablero = new Tablero(t);
-        _tableroRepository.Create(tablero);
-        return RedirectToAction("Index");
+        try
+        {
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            if(!ModelState.IsValid) return RedirectToAction("Create");
+            Tablero tablero = new Tablero(t);
+            _tableroRepository.Create(tablero);
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al crear tablero {ex.ToString()}");
+            return RedirectToAction("Error");
+        }
     }
 
     [HttpGet]
     public IActionResult Update(int id)
     {  
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        Tablero nuevoTablero= _tableroRepository.GetById(id); 
-        if (IsAdmin() || nuevoTablero.IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) 
+        try
         {
-            return View(new ActualizarTableroViewModel(nuevoTablero));
-        }else
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            Tablero nuevoTablero= _tableroRepository.GetById(id); 
+            if (IsAdmin() || nuevoTablero.IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) 
+            {
+                return View(new ActualizarTableroViewModel(nuevoTablero));
+            }else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+        catch (Exception ex)
         {
+            _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
     }
 
     [HttpPost]
     public IActionResult Update(ActualizarTableroViewModel t) {
-        
-        if(!ModelState.IsValid) return RedirectToAction("Update");
-        
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); // son necesarios estos controles en el post?
-        if (IsAdmin() || t.IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        try
         {
-            Tablero tablero = new Tablero(t);
-            _tableroRepository.Update(tablero.Id, tablero);
-            return RedirectToAction("Index");
-        }else
+            if(!ModelState.IsValid) return RedirectToAction("Update");
+            
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); // son necesarios estos controles en el post?
+            if (IsAdmin() || t.IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            {
+                Tablero tablero = new Tablero(t);
+                _tableroRepository.Update(tablero.Id, tablero);
+                return RedirectToAction("Index");
+            }else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+        catch (Exception ex)
         {
+            _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
         
@@ -79,16 +119,23 @@ public class TableroController : Controller
 
     [HttpGet]
     public IActionResult Delete(int id) {
-        if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-        if (IsAdmin() || _tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+        try
         {
-            _tableroRepository.Remove(id);
-            return RedirectToAction("Index");
-        }else
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            if (IsAdmin() || _tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            {
+                _tableroRepository.Remove(id);
+                return RedirectToAction("Index");
+            }else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+        catch (Exception ex)
         {
+            _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
-        
     }
 
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();

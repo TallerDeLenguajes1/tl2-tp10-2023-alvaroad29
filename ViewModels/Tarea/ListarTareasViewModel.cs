@@ -19,10 +19,10 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                 TareaViewModel tareaVM = new TareaViewModel(t);
                 if(t.IdUsuarioAsignado == 0)
                 {
-                    tareaVM.NombreUsuarioPropietario = "Sin asignar";  
+                    tareaVM.NombreUsuarioAsignado = "Sin asignar";  
                 }else
                 {
-                    tareaVM.NombreUsuarioPropietario = usuarios.FirstOrDefault(u => u.Id == tareaVM.IdUsuarioAsignado)?.NombreDeUsuario;
+                    tareaVM.NombreUsuarioAsignado = usuarios.FirstOrDefault(u => u.Id == tareaVM.IdUsuarioAsignado)?.NombreDeUsuario;
                 }
                 TareasVM.Add(tareaVM);
             }

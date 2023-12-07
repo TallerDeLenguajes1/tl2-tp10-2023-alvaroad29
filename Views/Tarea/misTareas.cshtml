@@ -1,23 +1,24 @@
-﻿@{
+@{
     ViewData["Title"] = "Tareas"; // titulo de la pestaña
 }
 @using tl2_tp10_2023_alvaroad29.ViewModels
 
-@model ListarTareasViewModel
+@model ListarMisTareasViewModel
 
 <div class="container">
-    <h2>Lista Tareas - tablero : @Model.NombreTablero</h2>
+    <h2>Lista Tareas - tablero : @Model.NombreUsuarioAsignado</h2>
 
     <table class="table">
         <thead>
             <tr>
                 <th hidden>ID</th> <!-- oculto el id--->
                 <th hidden>Id tablero</th>
+                <th>Tablero</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Color</th>
                 <th>Estado</th>
-                <th>Usuario asignado</th>
+                <th hidden>Usuario asignado</th>
             </tr>
         </thead>
         <tbody>
@@ -26,18 +27,18 @@
                 <tr>
                     <td hidden>@t.Id</td>
                     <td hidden>@t.Id_tablero</td>
+                     <td>@t.NombreTablero</td>
                     <td>@t.Nombre</td>
                     <td>@t.Descripcion</td>
                     <td>@t.Color</td>
                     <td>@t.Estado</td>
-                    <td>@t.NombreUsuarioAsignado</td>
-                    <td>
+                    <td hidden>@t.NombreUsuarioAsignado</td>
+                    @* <td>
                         <a asp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
                         <a asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
-                    </td>
+                    </td> *@
                 </tr>
             }
         </tbody>
     </table>
-    <a type="button" class="btn btn-primary btn-lg" asp-controller="Tarea" asp-action="Create" asp-route-id="@Model.Id_tablero">Crear Tarea</a>
 </div>

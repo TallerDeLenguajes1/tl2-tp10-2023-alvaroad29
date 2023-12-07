@@ -25,8 +25,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@contra", usuario.Contrasenia));
                 command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                 connection.Open();
-                command.ExecuteNonQuery(); // INSERT, DELETE, UPDATE, no retorna nada
-                connection.Close();   
+                int rowsAffected = command.ExecuteNonQuery(); // INSERT, DELETE, UPDATE, no retorna nada
+                connection.Close();
+
+                if (rowsAffected == 0) // ??
+                {
+                    throw new Exception();
+                }   
             }
         }   
         public void Update(int id, Usuario usuario)
@@ -40,8 +45,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Usuario a actualizar no existe");
+                }
             }
         }
         public List<Usuario> GetAll()
@@ -71,7 +81,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
         }
         public Usuario GetById(int id)
         {
-            var usuario = new Usuario();
+            Usuario usuario = null;
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = connection.CreateCommand();
@@ -82,6 +92,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 {
                     while (reader.Read())
                     {
+                        usuario = new Usuario();
                         usuario.Id = Convert.ToInt32(reader["id"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
                         usuario.Contrasenia = reader["contrasenia"].ToString();
@@ -90,7 +101,11 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 }
                 connection.Close();
             }
-
+            
+            if (usuario == null)
+            {
+                throw new Exception("Usuario no encontrado");
+            }
             return usuario;
         }
         public void Remove(int id)
@@ -101,8 +116,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.CommandText = $"DELETE from Usuario WHERE id = @id;";
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Usuario a eliminar no existe");
+                }
             }
         }
 

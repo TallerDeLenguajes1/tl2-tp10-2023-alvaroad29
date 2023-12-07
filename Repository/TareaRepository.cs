@@ -45,14 +45,19 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@id_usuario", tarea.IdUsuarioAsignado));
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Tarea a actualizar no existe");
+                }
             }
         }
 
         public Tarea GetById(int id)
         {
-            var tarea = new Tarea();
+            Tarea tarea = null;
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = connection.CreateCommand();
@@ -63,6 +68,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 {
                     while (reader.Read())
                     {
+                        tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id"]);
                         tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
                         tarea.Nombre = reader["nombre"].ToString();
@@ -82,10 +88,15 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 connection.Close();
             }
 
+            if (tarea == null)
+            {
+                throw new Exception("Tarea con encontrada");
+            }
+
             return tarea;
         }
 
-        public List<Tarea> GetAllByIdUsuario(int id)
+        public List<Tarea> GetAllByIdUsuario(int id) // tareas asignas a un usuario
         {
             List<Tarea> tareas = new List<Tarea>();
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
@@ -122,7 +133,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
             return tareas;
         }
 
-        public List<Tarea> GetAllByIdTablero(int id)
+        public List<Tarea> GetAllByIdTablero(int id) // tareas asignadas a un tablero
         {
             List<Tarea> tareas = new List<Tarea>();
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
@@ -204,8 +215,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.CommandText = @"DELETE FROM Tarea WHERE id = @id;";
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Tarea a eliminar no existe");
+                }
             }
         }
 
@@ -218,8 +234,13 @@ namespace tl2_tp10_2023_alvaroad29.Models
                 command.Parameters.Add(new SQLiteParameter("@idUsuario", idUsuario));
                 command.Parameters.Add(new SQLiteParameter("@idTarea", idTarea));
                 connection.Open();
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("Error al signar usuario a tarea");
+                }
             }
         }
     }

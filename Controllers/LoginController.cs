@@ -46,10 +46,10 @@ public class LoginController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
-            return BadRequest();
+            _logger.LogError($"Error al intentar logear un usuario {ex.ToString()}");
+            //return BadRequest();
         }
-        
+        return RedirectToRoute(new { controller = "Home", action = "Index" });
         
     }
 

@@ -12,7 +12,8 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         string color;
         EstadoTarea estado;
         int? idUsuarioAsignado;
-        string nombreUsuarioPropietario;
+        string nombreUsuarioAsignado;
+        string nombreTablero;
 
         public int Id { get => id; set => id = value; }
 
@@ -30,7 +31,8 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         public EstadoTarea Estado { get => estado; set => estado = value; }
         public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
         public int Id_tablero { get => id_tablero; set => id_tablero = value; }
-        public string NombreUsuarioPropietario { get => nombreUsuarioPropietario; set => nombreUsuarioPropietario = value; }
+        public string NombreUsuarioAsignado { get => nombreUsuarioAsignado; set => nombreUsuarioAsignado = value; }
+        public string NombreTablero { get => nombreTablero; set => nombreTablero = value; }
 
         public TareaViewModel(Tarea tarea)
         {
