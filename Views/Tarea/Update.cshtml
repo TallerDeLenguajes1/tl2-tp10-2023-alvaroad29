@@ -1,42 +1,64 @@
 @using tl2_tp10_2023_alvaroad29.ViewModels
 @model ActualizarTareaViewModel
 
-<div class="container">
-    <form asp-controller="Tarea" asp-action="Update">
-        <input hidden asp-for="@Model.Id" > 
-        <input hidden asp-for="@Model.Id_tablero " > 
-        <div class="form-group">
-            <label asp-for="@Model.Nombre">Nombre</label>
-            <input asp-for="@Model.Nombre" class="form-control" />
-            <span asp-validation-for="@Model.Nombre" class="text-danger"></span>  
+<div class="row justify-content-center ">
+    <div class="col-5">
+        <div class="text-center">
+            <h1 class="h3 mb-3 fw-normal">Actualizar</h1>
         </div>
-        <div class="form-group">
-            <label asp-for="@Model.Descripcion">Descripcion</label>
-            <input asp-for="@Model.Descripcion" class="form-control" />
-            <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>  
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Color">Color</label>
-            <input asp-for="@Model.Color" class="form-control" />
-            <span asp-validation-for="@Model.Color" class="text-danger"></span> 
-        </div>
-        <div >
-            <label asp-for="@Model.Estado">Estado</label>
-            <select asp-for="@Model.Estado" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
-            </select>
-            <span asp-validation-for="@Model.Estado" class="text-danger"></span> 
-        </div>
-        <label asp-for="@Model.IdUsuarioAsignado">Usuario asignado</label>
-        <select asp-for="@Model.IdUsuarioAsignado" class="form-control">
-            <option selected value = "0">Sin Asignar</option>
-            @foreach (var usuario in Model.Usuarios)
-            {
-                <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
-            }
-        </select>
-        <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>  
-        <button type="submit"  class="btn btn-primary">Enviar</button>
-    </form>
+        <form asp-controller="Tarea" asp-action="Update">
+            <input hidden asp-for="@Model.Id" > 
+            <input hidden asp-for="@Model.Id_tablero " > 
+            <div class="mb-4">
+                <div class="input-group">
+                    @* <label asp-for="@Model.Nombre">Nombre</label> *@
+                    <input asp-for="@Model.Nombre" class="form-control" placeholder="nombre" aria-label="nombre" aria-describedby="basic-addon1"/>
+                </div>
+                <span asp-validation-for="@Model.Nombre" class="text-danger"></span>  
+            </div>
+            <div class="mb-4">
+                <div class="input-group">
+                    @* <label asp-for="@Model.Descripcion">Descripcion</label> *@
+                    <input asp-for="@Model.Descripcion" class="form-control" placeholder="descipcion" aria-label="descripcion" aria-describedby="basic-addon1"/>
+                </div>
+                <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>  
+            </div>
+            <div class="mb-4">
+                <div class="input-group">
+                    @* <label asp-for="@Model.Color">Color</label> *@
+                    <input asp-for="@Model.Color" class="form-control" placeholder="color" aria-label="color" aria-describedby="basic-addon1"/>
+                </div>
+                <span asp-validation-for="@Model.Color" class="text-danger"></span>
+            </div> 
+            <div class="mb-4">
+                <div class="input-group">
+                    <label class="input-group-text" asp-for="@Model.Estado">estado</label>
+                    <select asp-for="@Model.Estado" class="form-select" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
+                    </select>
+                </div>
+                <span asp-validation-for="@Model.Estado" class="text-danger"></span> 
+            </div>
+            <div class="mb-4">
+                <div class="input-group">
+                    @* <label asp-for="@Model.IdUsuarioAsignado">Usuario asignado</label> *@
+                    <label asp-for="@Model.IdUsuarioAsignado" class="input-group-text" >
+                        <img  src="~/icons/user-solid.svg" alt="icono persona">
+                    </label>
+                    <select asp-for="@Model.IdUsuarioAsignado" class="form-select" class="form-control">
+                        <option selected value = "0">Sin Asignar</option>
+                        @foreach (var usuario in Model.Usuarios)
+                        {
+                            <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
+                        }
+                    </select>
+                </div>
+                <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>         
+            </div>
+            <div class=" d-grid gap-2 col-6 mx-auto">
+                <button type="submit"  class="btn btn-primary">Enviar</button>
+            </div>    
+        </form>
+    </div>
 </div>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

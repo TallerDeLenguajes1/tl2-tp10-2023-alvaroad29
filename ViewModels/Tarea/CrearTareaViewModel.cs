@@ -12,9 +12,9 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
 
         [Required(ErrorMessage = "Este campo es requerido.")]
         public EstadoTarea Estado { get; set; }
-        public string Color { get; set; }
         public int? IdUsuarioAsignado { get; set; }
         public int Id_tablero { get; set; }
+        public string Color { get; set; }
 
         private List<Usuario> usuarios = new List<Usuario>();
         public List<Usuario> Usuarios { get => usuarios; set => usuarios = value; }

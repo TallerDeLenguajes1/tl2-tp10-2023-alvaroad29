@@ -1,27 +1,48 @@
 @using tl2_tp10_2023_alvaroad29.ViewModels
 @model CrearTableroViewModel
 
-<form asp-controller="Tablero" asp-action="Create">
-    @* <input hidden asp-for="@Model.IdUsuarioPropietario"> *@
-    <div class="form-group">
-        <label asp-for="@Model.Nombre">Nombre</label>
-        <input asp-for="@Model.Nombre" class="form-control" />
-        <span asp-validation-for="@Model.Nombre" class="text-danger"></span>    
-    </div>
-    <label asp-for="@Model.IdUsuarioPropietario">Usuario propietario</label>
-    <select asp-for="@Model.IdUsuarioPropietario" class="form-control">
-        @foreach (var usuario in Model.Usuarios)
-        {
-            <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
-        }
-    </select>
-    <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>    
-    <div class="form-group">
-        <label asp-for="@Model.Descripcion">Descripcion</label>
-        <input asp-for="@Model.Descripcion" class="form-control" />
-        <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>    
-    </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
-</form>
+<div class="row justify-content-center ">
+    <div class="col-5">
+        <div class="text-center">
+            <h1 class="h3 mb-3 fw-normal">Crear tablero</h1>
+        </div>
+        <form asp-controller="Tablero" asp-action="Create">
+            <div class="mb-4">
+                <div class="input-group">
+                    @* <label asp-for="@Model.Nombre" class="input-group-text" >
+                        <img  src="~/icons/user-solid.svg" alt="icono persona">
+                    </label> *@
+                    <input asp-for="@Model.Nombre" class="form-control" placeholder="nombre" aria-label="nombre" aria-describedby="basic-addon1"/>
+                </div>
+                <span asp-validation-for="@Model.Nombre" class="text-danger"></span>    
+            </div>
 
+            <div class="mb-4">
+                <div class="input-group">
+                    <label asp-for="@Model.IdUsuarioPropietario" class="input-group-text" >
+                        <img  src="~/icons/user-solid.svg" alt="icono persona">
+                    </label>
+                    <select asp-for="@Model.IdUsuarioPropietario" class="form-select" class="form-control">
+                        @foreach (var usuario in Model.Usuarios)
+                        {
+                            <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
+                        }
+                    </select>
+                </div>
+                <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>
+            </div>
+                @*Un operador puede crear un tablero asignado a cualquiera?  *@
+            <div class="mb-4">
+                <div class="input-group">
+                    @* <label asp-for="@Model.Descripcion">Descripcion</label> *@
+                    <input asp-for="@Model.Descripcion" class="form-control" placeholder="descripcion" aria-label="descripcion" aria-describedby="basic-addon1"/>
+                </div>
+                <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>    
+            </div>
+            <div class=" d-grid gap-2 col-6 mx-auto">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

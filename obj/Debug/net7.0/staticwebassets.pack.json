@@ -13,6 +13,22 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\lock-solid.svg",
+      "PackagePath": "staticwebassets\\icons\\lock-solid.svg"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\user-solid.svg",
+      "PackagePath": "staticwebassets\\icons\\user-solid.svg"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\users-gear-solid.svg",
+      "PackagePath": "staticwebassets\\icons\\users-gear-solid.svg"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\img\\logo.svg",
+      "PackagePath": "staticwebassets\\img\\logo.svg"
+    },
+    {
       "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
