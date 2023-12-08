@@ -18,8 +18,11 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
 
+        private string nivelDeAcceso = "";
+        public string NivelDeAcceso { get => nivelDeAcceso; set => nivelDeAcceso = value; }
         private List<Usuario> usuarios = new List<Usuario>();
         public List<Usuario> Usuarios { get => usuarios; set => usuarios = value; }
+
         public CrearTableroViewModel(List<Usuario> usuarios)
         {
             this.usuarios = usuarios;

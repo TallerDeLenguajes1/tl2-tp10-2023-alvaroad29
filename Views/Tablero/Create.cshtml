@@ -17,21 +17,26 @@
                 <span asp-validation-for="@Model.Nombre" class="text-danger"></span>    
             </div>
 
-            <div class="mb-4">
-                <div class="input-group">
-                    <label asp-for="@Model.IdUsuarioPropietario" class="input-group-text" >
-                        <img  src="~/icons/user-solid.svg" alt="icono persona">
-                    </label>
-                    <select asp-for="@Model.IdUsuarioPropietario" class="form-select" class="form-control">
-                        @foreach (var usuario in Model.Usuarios)
-                        {
-                            <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
-                        }
-                    </select>
+            @if(@Model.NivelDeAcceso == "admin")
+            {
+                <div class="mb-4">
+                    <div class="input-group">
+                        <label asp-for="@Model.IdUsuarioPropietario" class="input-group-text" >
+                            <img  src="~/icons/user-solid.svg" alt="icono persona">
+                        </label>
+                        <select asp-for="@Model.IdUsuarioPropietario" class="form-select" class="form-control">
+                            @foreach (var usuario in Model.Usuarios)
+                            {
+                                <option value="@usuario.Id">@usuario.NombreDeUsuario</option>
+                            }
+                        </select>
+                    </div>
+                    <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>
-            </div>
-                @*Un operador puede crear un tablero asignado a cualquiera?  *@
+            }else{
+                <input hidden asp-for ="@Model.IdUsuarioPropietario" > 
+            }
+            
             <div class="mb-4">
                 <div class="input-group">
                     @* <label asp-for="@Model.Descripcion">Descripcion</label> *@

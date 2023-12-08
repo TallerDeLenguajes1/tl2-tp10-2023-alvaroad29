@@ -43,7 +43,19 @@ public class TableroController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            return View(new CrearTableroViewModel(_usuarioRepository.GetAll())); 
+            if (IsAdmin())
+            {
+                var tablero = new CrearTableroViewModel(_usuarioRepository.GetAll());
+                tablero.IdUsuarioPropietario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                tablero.NivelDeAcceso = HttpContext.Session.GetString("NivelDeAcceso");
+                return View(tablero);
+            }else
+            {
+                var tablero = new CrearTableroViewModel(_usuarioRepository.GetAll());
+                tablero.IdUsuarioPropietario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                tablero.NivelDeAcceso = HttpContext.Session.GetString("NivelDeAcceso");
+                return View(tablero); 
+            }
         }
         catch (Exception ex)
         {
