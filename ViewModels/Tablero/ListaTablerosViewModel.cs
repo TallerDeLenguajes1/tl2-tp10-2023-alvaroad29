@@ -20,5 +20,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                 TablerosVM.Add(tableroVM);
             }
         }
+
+        public ListaTablerosViewModel(){}
     }
 }

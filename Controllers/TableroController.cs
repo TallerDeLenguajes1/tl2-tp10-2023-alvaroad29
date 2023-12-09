@@ -9,11 +9,13 @@ public class TableroController : Controller
     private readonly ILogger<TableroController> _logger;
     private readonly ITableroRepository _tableroRepository;
     private readonly IUsuarioRepository _usuarioRepository;
-    public TableroController(ILogger<TableroController> logger, ITableroRepository tableroRepository, IUsuarioRepository usuarioRepository)
+    private readonly ITareaRepository _tareaRepository;
+    public TableroController(ILogger<TableroController> logger, ITableroRepository tableroRepository, IUsuarioRepository usuarioRepository, ITareaRepository tareaRepository)
     {
         _logger = logger;
         _tableroRepository = tableroRepository;
         _usuarioRepository = usuarioRepository;
+        _tareaRepository = tareaRepository;
     }
 
     [HttpGet]
@@ -23,11 +25,17 @@ public class TableroController : Controller
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
 
-            if (!IsAdmin())
+            if (IsAdmin())
             {
-                return View(new ListaTablerosViewModel(_tableroRepository.GetAllById(Convert.ToInt32(HttpContext.Session.GetString("Id"))), _usuarioRepository.GetAll()));
-            }else{
                 return View(new ListaTablerosViewModel(_tableroRepository.GetAll(), _usuarioRepository.GetAll()));
+            }else{
+                int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                List<Tablero> misTableros = _tableroRepository.GetAllById(idUsuario);
+
+                List<Tablero> tablerosTareas = tablerosTareasAsignadas(idUsuario);
+
+                List<Usuario> usuarios = _usuarioRepository.GetAll();
+                return View("ListarTablerosOperador", new ListarTablerosOperadorViewModel(misTableros,tablerosTareas,usuarios));
             }
         }
         catch (Exception ex)
@@ -152,6 +160,25 @@ public class TableroController : Controller
 
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
     private bool EstaLogeado() => !String.IsNullOrEmpty(HttpContext.Session.GetString("Usuario"));
+
+    private List<Tablero> tablerosTareasAsignadas(int idUsuario)
+    {
+        List<Tarea> misTareasAsignadas = _tareaRepository.GetAllByIdUsuario(idUsuario);
+
+        List<Tablero> tableros = _tableroRepository.GetAll();
+
+        List<Tablero> tablerosTareasAsignadas = new List<Tablero>(); 
+
+        foreach (var tablero in tableros)
+        {
+            if (tablero.IdUsuarioPropietario != idUsuario && misTareasAsignadas.Any(tarea => tarea.Id_tablero == tablero.Id))
+            {
+                tablerosTareasAsignadas.Add(tablero);
+            }
+        }
+
+        return tablerosTareasAsignadas;
+    }
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
