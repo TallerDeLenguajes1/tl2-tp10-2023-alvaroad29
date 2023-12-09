@@ -25,14 +25,19 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            if (IsAdmin())
+            Tablero tablero = _tableroRepository.GetById(id);
+            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            List<Tarea> tareas = _tareaRepository.GetAllByIdTablero(id);
+            List<Usuario> usuarios = _usuarioRepository.GetAll();
+            TableroViewModel tableroVM = new TableroViewModel(tablero);
+
+            if (IsAdmin() || tablero.IdUsuarioPropietario == idUsuario)
             {
-                return View(new ListarTareasViewModel(_tareaRepository.GetAllByIdTablero(id), _usuarioRepository.GetAll(),new TableroViewModel(_tableroRepository.GetById(id)))); 
+                return View(new ListarTareasViewModel(tareas, usuarios, tableroVM)); 
             }else
             {
-                return null;
-            }
-            
+                return View("ListarTareasAsignadas", new ListarTareasAsignadasViewModel(tareas, usuarios, tableroVM, idUsuario));
+            }     
         }
         catch (Exception ex)
         {
@@ -124,6 +129,32 @@ public class TareaController : Controller
                 Tarea tarea = new Tarea(t);
                 _tareaRepository.Update(tarea.Id, tarea);
                 return RedirectToAction("Index", new{id = tarea.Id_tablero});
+            }else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"{ex.ToString()}");
+            return RedirectToAction("Error");
+        } 
+    }
+
+    [HttpPost]
+    public IActionResult UpdateEstado(int id, int idTablero, EstadoTarea estado) {
+        try
+        {
+            // if(!ModelState.IsValid) return RedirectToAction("Update");
+            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            Tarea tarea = _tareaRepository.GetById(id);
+            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            if(IsAdmin() || _tableroRepository.GetById(idTablero).IdUsuarioPropietario == idUsuario || tarea.IdUsuarioAsignado == idUsuario)
+            {
+                
+                tarea.Estado = estado;
+                _tareaRepository.Update(id, tarea);
+                return RedirectToAction("Index", new{id = idTablero});
             }else
             {
                 return RedirectToAction("Error");

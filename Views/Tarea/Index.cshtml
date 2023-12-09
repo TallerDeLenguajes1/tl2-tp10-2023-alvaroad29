@@ -16,8 +16,10 @@
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Color</th>
-                <th>Estado</th>
                 <th>Usuario asignado</th>
+                <th>Estado</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +31,32 @@
                     <td>@t.Nombre</td>
                     <td>@t.Descripcion</td>
                     <td>@t.Color</td>
-                    <td>@t.Estado</td>
                     <td>@t.NombreUsuarioAsignado</td>
+
+                    <td>
+                        <form asp-controller="Tarea" asp-action="UpdateEstado">
+                            <input type="hidden" name = "idTablero" value = "@t.Id_tablero">
+                            <input type="hidden" name = "id" value ="@t.Id" />
+                            <div class="input-group">
+                                <select asp-for="@t.Estado" class="form-select" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()" name = "estado">
+                                </select>
+                                 <button class="btn btn-outline-secondary" type="submit">Cambiar</button>
+                            </div>
+                        </form>
+
+                        @* <script>
+                            document.getElementById("estadoSelect").addEventListener("change", function () {
+                                document.getElementById("cambiarEstadoForm").submit();
+                            });
+                        </script>  *@
+                        @* a veces no se manda el form, xqqq ???? *@
+                    </td>
+
+                        
                     <td>
                         <a asp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
+                    </td>
+                    <td>
                         <a asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
                     </td>
                 </tr>
