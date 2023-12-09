@@ -35,7 +35,9 @@ public class TableroController : Controller
                 List<Tablero> tablerosTareas = tablerosTareasAsignadas(idUsuario);
 
                 List<Usuario> usuarios = _usuarioRepository.GetAll();
-                return View("ListarTablerosOperador", new ListarTablerosOperadorViewModel(misTableros,tablerosTareas,usuarios));
+
+                return View(new ListaTablerosViewModel(misTableros,tablerosTareas,usuarios));
+                // return View("ListarTablerosOperador", new ListarTablerosOperadorViewModel(misTableros,tablerosTareas,usuarios));
             }
         }
         catch (Exception ex)

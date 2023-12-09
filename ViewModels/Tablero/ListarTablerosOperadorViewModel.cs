@@ -2,6 +2,7 @@ using tl2_tp10_2023_alvaroad29.Models;
 
 namespace tl2_tp10_2023_alvaroad29.ViewModels
 {
+    // descartado
     public class ListarTablerosOperadorViewModel
     {
         public List<TableroViewModel> MisTablerosVM{ get; set;}

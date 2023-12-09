@@ -8,6 +8,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string nombreUsuarioPropietario { get; set; }
+        public bool Modificable { get ; set; }
         public TableroViewModel(Tablero tablero)
         {
             Id = tablero.Id;

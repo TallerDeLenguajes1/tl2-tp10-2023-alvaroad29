@@ -16,6 +16,9 @@
                 <th>Usuario propietario</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +30,18 @@
                     <td>@t.Nombre</td>
                     <td>@t.Descripcion</td>
                     <td>
-                        <a asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
-                        <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>
-                        <a asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id" class="btn btn-primary">Ver Tareas</a>  
+                        <a asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id" class="btn btn-primary">Ver Tareas</a>
                     </td>
+                    @if(t.Modificable == true)
+                    {
+                        <td>
+                            <a asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>
+                            
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

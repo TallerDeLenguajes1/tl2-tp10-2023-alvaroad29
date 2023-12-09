@@ -25,7 +25,14 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            return View(new ListarTareasViewModel(_tareaRepository.GetAllByIdTablero(id), _usuarioRepository.GetAll(),new TableroViewModel(_tableroRepository.GetById(id)))); 
+            if (IsAdmin())
+            {
+                return View(new ListarTareasViewModel(_tareaRepository.GetAllByIdTablero(id), _usuarioRepository.GetAll(),new TableroViewModel(_tableroRepository.GetById(id)))); 
+            }else
+            {
+                return null;
+            }
+            
         }
         catch (Exception ex)
         {

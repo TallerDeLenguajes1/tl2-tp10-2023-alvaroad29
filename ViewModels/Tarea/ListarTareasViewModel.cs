@@ -6,7 +6,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
     {
         public string NombreTablero { get; set; }
         public int Id_tablero { get; set; }
-        List<TareaViewModel> tareasVM;
+        private List<TareaViewModel> tareasVM;
         public List<TareaViewModel> TareasVM { get => tareasVM; set => tareasVM = value; }
 
         public ListarTareasViewModel(List<Tarea> tareas, List<Usuario> usuarios, TableroViewModel tablero)
@@ -22,6 +22,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                     tareaVM.NombreUsuarioAsignado = "Sin asignar";  
                 }else
                 {
+                    
                     tareaVM.NombreUsuarioAsignado = usuarios.FirstOrDefault(u => u.Id == tareaVM.IdUsuarioAsignado)?.NombreDeUsuario;
                 }
                 TareasVM.Add(tareaVM);
