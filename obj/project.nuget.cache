@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TgOZE3upmnuryLQklKBhj6tCXXmdWdR8OD72dK16MG+kONudkJ3gjwrfoj2CCKIo7S1lzXjS7aLyfOs8RQmzXw==",
+  "dgSpecHash": "PqYAtLBXZ5p2wpbrvfGkPgyG+5G0dKX4nSP6ivhhKNSF1LbdS8qirqO3u3LNwoNitdGNAhJZgnNzYi1jBvceSg==",
   "success": true,
-  "projectFilePath": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
+  "projectFilePath": "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net\\1.12.1\\datatables.net.1.12.1.nupkg.sha512",
     "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\datatables.net-dt.1.13.8.nupkg.sha512",

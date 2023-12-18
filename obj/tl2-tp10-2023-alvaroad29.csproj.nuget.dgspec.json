@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj": {}
+    "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj": {}
   },
   "projects": {
-    "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj": {
+    "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
+        "projectUniqueName": "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
         "projectName": "tl2-tp10-2023-alvaroad29",
-        "projectPath": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
+        "projectPath": "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
         "packagesPath": "C:\\Users\\Alvaro\\.nuget\\packages\\",
-        "outputPath": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\obj\\",
+        "outputPath": "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Alvaro\\AppData\\Roaming\\NuGet\\NuGet.Config"
