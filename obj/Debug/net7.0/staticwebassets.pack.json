@@ -273,22 +273,6 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\css\\jquery.dataTables.css",
-      "PackagePath": "staticwebassets\\css\\jquery.dataTables.css"
-    },
-    {
-      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\css\\jquery.dataTables.min.css",
-      "PackagePath": "staticwebassets\\css\\jquery.dataTables.min.css"
-    },
-    {
-      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\js\\dataTables.dataTables.js",
-      "PackagePath": "staticwebassets\\js\\dataTables.dataTables.js"
-    },
-    {
-      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\js\\dataTables.dataTables.min.js",
-      "PackagePath": "staticwebassets\\js\\dataTables.dataTables.min.js"
-    },
-    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.tl2-tp10-2023-alvaroad29.props",
       "PackagePath": "build\\tl2-tp10-2023-alvaroad29.props"
     },

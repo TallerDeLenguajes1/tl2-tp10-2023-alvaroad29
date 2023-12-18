@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6+8XnkF0zGi7cLuJYVPo0iAG5IdSSKL2wOZviD66kPuF+tB8sdECOrWvudyJTi/yLuxCSnIVFSB513O61t1QGg==",
+  "dgSpecHash": "nFBhHlOre5AkRnP4v4aUEIUjNxlOigUn3eAHxG09GrQZJhjLrjGeo2t1jajsnoUVsZY0FcpeL1hAxGp8JSSAJg==",
   "success": true,
-  "projectFilePath": "c:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
+  "projectFilePath": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alvaro\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Alvaro\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\2.2.0\\microsoft.aspnetcore.cryptography.internal.2.2.0.nupkg.sha512",
