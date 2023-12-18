@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "nFBhHlOre5AkRnP4v4aUEIUjNxlOigUn3eAHxG09GrQZJhjLrjGeo2t1jajsnoUVsZY0FcpeL1hAxGp8JSSAJg==",
+  "dgSpecHash": "TgOZE3upmnuryLQklKBhj6tCXXmdWdR8OD72dK16MG+kONudkJ3gjwrfoj2CCKIo7S1lzXjS7aLyfOs8RQmzXw==",
   "success": true,
   "projectFilePath": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\tl2-tp10-2023-alvaroad29.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net\\1.12.1\\datatables.net.1.12.1.nupkg.sha512",
+    "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\datatables.net-dt.1.13.8.nupkg.sha512",
     "C:\\Users\\Alvaro\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
+    "C:\\Users\\Alvaro\\.nuget\\packages\\jquery\\1.7.0\\jquery.1.7.0.nupkg.sha512",
     "C:\\Users\\Alvaro\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\2.2.0\\microsoft.aspnetcore.cryptography.internal.2.2.0.nupkg.sha512",
     "C:\\Users\\Alvaro\\.nuget\\packages\\microsoft.aspnetcore.dataprotection\\2.2.0\\microsoft.aspnetcore.dataprotection.2.2.0.nupkg.sha512",
     "C:\\Users\\Alvaro\\.nuget\\packages\\microsoft.aspnetcore.dataprotection.abstractions\\2.2.0\\microsoft.aspnetcore.dataprotection.abstractions.2.2.0.nupkg.sha512",

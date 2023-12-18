@@ -4,11 +4,11 @@ using tl2_tp10_2023_alvaroad29.Models;
 using tl2_tp10_2023_alvaroad29.ViewModels;
 
 namespace tl2_tp10_2023_alvaroad29.Controllers;
-public class UsuarioController : Controller
+public class UsuarioController : Controller // hereda de controller
 {
-    private readonly ILogger<UsuarioController> _logger;
-    private readonly IUsuarioRepository _usuarioRepository;
-    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository usuarioRepository)
+    private readonly ILogger<UsuarioController> _logger; // Ilogger
+    private readonly IUsuarioRepository _usuarioRepository; // para usar los repos
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository usuarioRepository) // injeccion
     {
         _logger = logger;
         _usuarioRepository = usuarioRepository;
@@ -19,7 +19,7 @@ public class UsuarioController : Controller
     {
         try
         {
-            if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); // afuera del try?
+            if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); 
     
             if (IsAdmin())
             {
@@ -27,12 +27,12 @@ public class UsuarioController : Controller
             }else
             {
                 ListaUsuariosViewModel usuarios = new ListaUsuariosViewModel(_usuarioRepository.GetById(Convert.ToInt32(HttpContext.Session.GetString("Id"))));
-                return View(usuarios);
+                return View(usuarios); // le mando un ViewModel a la vista
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error al acceder a los usuarios {ex.ToString()}");
+            _logger.LogError($"Error al acceder a los usuarios {ex.ToString()}"); // loggeo el error
             return RedirectToAction("Error"); //?
         }
         
@@ -52,7 +52,7 @@ public class UsuarioController : Controller
             _logger.LogError($"Error al crear usuario {ex.ToString()}");
             return RedirectToAction("Error");
         }
-        
+       
     }
 
     [HttpPost]
@@ -60,13 +60,13 @@ public class UsuarioController : Controller
     {
         try
         {
-            if(!ModelState.IsValid) return RedirectToAction("Create");
+            if(!ModelState.IsValid) return RedirectToAction("Create"); // validación
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
             if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
 
-            Usuario usuario = new Usuario(u);
-            _usuarioRepository.Create(usuario);
-            return RedirectToAction("Index");
+            Usuario usuario = new Usuario(u); // casteo
+            _usuarioRepository.Create(usuario); // creo
+            return RedirectToAction("Index"); // redirecciono
         }
         catch (Exception ex)
         {
@@ -146,7 +146,6 @@ public class UsuarioController : Controller
             _logger.LogError($"{ex.ToString()}");
             return RedirectToAction("Error");
         }
-        
     }
 
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();

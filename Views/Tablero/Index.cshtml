@@ -3,20 +3,27 @@
 }
 
 @using tl2_tp10_2023_alvaroad29.ViewModels
-
 @model ListaTablerosViewModel
 
 <div class="container">
-    <h2>Lista Tableros</h2>
+    <div class="text-center">
+        <h1>Lista Tableros</h1>
+    </div>
 
-    <table class="table">
+    <a type="button"  asp-controller="Tablero" asp-action="Create" class="link-crear icon-link shadow p-3 mb-2 bg-body-tertiary rounded">
+        <i class="bi bi-plus"></i>
+        Nuevo
+    </a>
+
+    <table id = "myTable" class="table" >
         <thead>
             <tr>
                 <th hidden>ID</th> <!-- oculto el id--->
                 <th>Usuario propietario</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
-                <th></th>
+                @* <th></th>
+                <th></th> *@
                 <th></th>
                 <th></th>
             </tr>
@@ -29,22 +36,42 @@
                     <td>@t.nombreUsuarioPropietario</td>
                     <td>@t.Nombre</td>
                     <td>@t.Descripcion</td>
+                    <td class = "td-dropdown">
+                    @if(t.Modificable == true)
+                    {
+                        <div class="dropdown-center">
+                                <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                @* <img src="~/icons/ellipsis-vertical-solid.svg" alt="icono lista" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" class = "img-list"> *@
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="icon-link dropdown-item">
+                                        <img src="~/icons/pen-solid.svg" alt="">
+                                        Modificar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="icon-link dropdown-item">
+                                        <img src="~/icons/trash-can-solid.svg" alt="">
+                                        Eliminar
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    }
+                    </td>
                     <td>
                         <a asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id" class="btn btn-primary">Ver Tareas</a>
                     </td>
-                    @if(t.Modificable == true)
-                    {
-                        <td>
-                            <a asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
-                        </td>
-                        <td>
-                            <a asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>
-                            
-                        </td>
-                    }
                 </tr>
             }
         </tbody>
     </table>
-    <a type="button" class="btn btn-primary btn-lg" asp-controller="Tablero" asp-action="Create">Crear Tablero</a>
+    @section Scripts{
+        <script>
+            $(document).ready( function () {
+                $('#myTable').DataTable();
+            } );
+        </script>
+    }
 </div>

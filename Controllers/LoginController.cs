@@ -36,7 +36,7 @@ public class LoginController : Controller
                 return RedirectToAction("Index"); //el formulario
             }    
 
-            _logger.LogInformation("El usuario: " + usuario.NombreDeUsuario + " Ingreso correctamente");
+            _logger.LogInformation("El usuario: " + usuario.NombreDeUsuario + " Ingreso correctamente"); // logs
 
             //Registro el usuario (creo la sesion)
             logearUsuario(usuarioLogeado);
@@ -53,7 +53,7 @@ public class LoginController : Controller
         
     }
 
-    private void logearUsuario(Usuario user)
+    private void logearUsuario(Usuario user) // seteo los campos 
     {
         HttpContext.Session.SetString("Usuario", user.NombreDeUsuario);
         HttpContext.Session.SetString("NivelDeAcceso", user.Rol.ToString());

@@ -46,6 +46,10 @@
             "System.Data.SQLite": {
               "target": "Package",
               "version": "[1.0.118, )"
+            },
+            "datatables.net-dt": {
+              "target": "Package",
+              "version": "[1.13.8, )"
             }
           },
           "imports": [

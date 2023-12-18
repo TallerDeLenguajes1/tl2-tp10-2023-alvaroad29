@@ -6,7 +6,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
     {
         private List<UsuarioViewModel> usuariosVM;
 
-        public ListaUsuariosViewModel(List<Usuario> usuarios)
+        public ListaUsuariosViewModel(List<Usuario> usuarios) // casteo a List de usuarios viewModel
         {
             UsuariosVM = new List<UsuarioViewModel>();
             foreach (var u in usuarios)

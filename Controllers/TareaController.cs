@@ -31,7 +31,7 @@ public class TareaController : Controller
             List<Usuario> usuarios = _usuarioRepository.GetAll();
             TableroViewModel tableroVM = new TableroViewModel(tablero);
 
-            if (IsAdmin() || tablero.IdUsuarioPropietario == idUsuario)
+            if (IsAdmin() || tablero.IdUsuarioPropietario == idUsuario) // admin o operador
             {
                 return View(new ListarTareasViewModel(tareas, usuarios, tableroVM)); 
             }else

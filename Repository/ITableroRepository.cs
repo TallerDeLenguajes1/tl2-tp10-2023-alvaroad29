@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace tl2_tp10_2023_alvaroad29.Models
 {
-    public interface ITableroRepository
+    public interface ITableroRepository // del tipo interface
     {
         public void Create(Tablero tablero);
         public void Update(int id, Tablero tablero);

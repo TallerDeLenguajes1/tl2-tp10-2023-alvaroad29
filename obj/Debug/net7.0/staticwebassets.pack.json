@@ -13,8 +13,20 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\ellipsis-vertical-solid.svg",
+      "PackagePath": "staticwebassets\\icons\\ellipsis-vertical-solid.svg"
+    },
+    {
       "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\lock-solid.svg",
       "PackagePath": "staticwebassets\\icons\\lock-solid.svg"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\pen-solid.svg",
+      "PackagePath": "staticwebassets\\icons\\pen-solid.svg"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\trash-can-solid.svg",
+      "PackagePath": "staticwebassets\\icons\\trash-can-solid.svg"
     },
     {
       "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\icons\\user-solid.svg",
@@ -259,6 +271,22 @@
     {
       "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\css\\jquery.dataTables.css",
+      "PackagePath": "staticwebassets\\css\\jquery.dataTables.css"
+    },
+    {
+      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\css\\jquery.dataTables.min.css",
+      "PackagePath": "staticwebassets\\css\\jquery.dataTables.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\js\\dataTables.dataTables.js",
+      "PackagePath": "staticwebassets\\js\\dataTables.dataTables.js"
+    },
+    {
+      "Id": "C:\\Users\\Alvaro\\.nuget\\packages\\datatables.net-dt\\1.13.8\\contentFiles\\any\\any\\wwwroot\\js\\dataTables.dataTables.min.js",
+      "PackagePath": "staticwebassets\\js\\dataTables.dataTables.min.js"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.tl2-tp10-2023-alvaroad29.props",

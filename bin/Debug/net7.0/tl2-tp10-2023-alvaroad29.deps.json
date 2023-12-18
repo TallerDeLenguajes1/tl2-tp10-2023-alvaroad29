@@ -9,10 +9,21 @@
       "tl2-tp10-2023-alvaroad29/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Session": "2.2.0",
-          "System.Data.SQLite": "1.0.118"
+          "System.Data.SQLite": "1.0.118",
+          "datatables.net-dt": "1.13.8"
         },
         "runtime": {
           "tl2-tp10-2023-alvaroad29.dll": {}
+        }
+      },
+      "datatables.net/1.12.1": {
+        "dependencies": {
+          "jQuery": "1.7.0"
+        }
+      },
+      "datatables.net-dt/1.13.8": {
+        "dependencies": {
+          "datatables.net": "1.12.1"
         }
       },
       "EntityFramework/6.4.4": {
@@ -34,6 +45,7 @@
           }
         }
       },
+      "jQuery/1.7.0": {},
       "Microsoft.AspNetCore.Cryptography.Internal/2.2.0": {},
       "Microsoft.AspNetCore.DataProtection/2.2.0": {
         "dependencies": {
@@ -384,12 +396,33 @@
       "serviceable": false,
       "sha512": ""
     },
+    "datatables.net/1.12.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7ArWbq7HCVj6uciLXUoFlW1ZvfYNbCPxFnniAjD4NKb/iAsTYWGZYRjdH3Ir8+0N8rR6muPTF5nZ4Mqf1nUn9A==",
+      "path": "datatables.net/1.12.1",
+      "hashPath": "datatables.net.1.12.1.nupkg.sha512"
+    },
+    "datatables.net-dt/1.13.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/x/8nJizoVhnp41pmISFzL0BYppOXi2Ro+EgGC0TqKKOv7iSJCwPtlJjw4dFeFGUaveeBj9jRpUh5LsH3sVhBA==",
+      "path": "datatables.net-dt/1.13.8",
+      "hashPath": "datatables.net-dt.1.13.8.nupkg.sha512"
+    },
     "EntityFramework/6.4.4": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-yj1+/4tci7Panu3jKDHYizxwVm0Jvm7b7m057b5h4u8NUHGCR8WIWirBTw+8EptRffwftIWPBeIRGNKD1ewEMQ==",
       "path": "entityframework/6.4.4",
       "hashPath": "entityframework.6.4.4.nupkg.sha512"
+    },
+    "jQuery/1.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UEZuBreHZNLao3z9zNPeSadyoPwKDP/5kFh+Mn1Pm9ZS0czk7bv0O6RreloGSIMAfTLZCiigNkuPb2bXKtUM+g==",
+      "path": "jquery/1.7.0",
+      "hashPath": "jquery.1.7.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/2.2.0": {
       "type": "package",

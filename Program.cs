@@ -4,8 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDistributedMemoryCache();
+builder.Services.AddDistributedMemoryCache(); //sesion
 
+
+//inyecciones repos y base de datos
 var cadenaConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
 builder.Services.AddSingleton<string>(cadenaConexion);
 
@@ -13,6 +15,8 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ITableroRepository, TableroRepository>();
 builder.Services.AddScoped<ITareaRepository, TareaRepository>();
 
+
+// sesion
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(300); //300
@@ -34,7 +38,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession();
+app.UseSession(); //sesion
 
 app.UseAuthorization();
 

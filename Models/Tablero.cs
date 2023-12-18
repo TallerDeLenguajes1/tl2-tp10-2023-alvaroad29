@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using tl2_tp10_2023_alvaroad29.ViewModels;
+using tl2_tp10_2023_alvaroad29.ViewModels; // para reconocer el viewModel a castear
 
 namespace tl2_tp10_2023_alvaroad29.Models
 {
@@ -18,7 +14,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
         public string Nombre { get => nombre; set => nombre = value; }
         public string Descripcion { get => descripcion; set => descripcion = value; }
 
-        public Tablero()
+        public Tablero() // Poner siempre constructor vacio
         {
         }
 

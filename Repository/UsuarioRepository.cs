@@ -17,7 +17,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
         public void Create(Usuario usuario)
         {
-            var query = $"INSERT INTO usuario (nombre_de_usuario, contrasenia, rol) VALUES (@name,@contra,@rol);";
+            var query = @"INSERT INTO usuario (nombre_de_usuario, contrasenia, rol) VALUES (@name,@contra,@rol);";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);
@@ -36,7 +36,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
         }   
         public void Update(int id, Usuario usuario)
         {
-            var query = $"update Usuario set nombre_de_usuario = @nuevoNombre, rol = @rol, contrasenia =  @contra WHERE id = @id";
+            var query = @"update Usuario set nombre_de_usuario = @nuevoNombre, rol = @rol, contrasenia =  @contra WHERE id = @id";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 var command = new SQLiteCommand(query, connection);
@@ -85,7 +85,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM usuario WHERE id = @idUsuario";
+                command.CommandText = @"SELECT * FROM usuario WHERE id = @idUsuario";
                 command.Parameters.Add(new SQLiteParameter("@idUsuario", id));
                 connection.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader())
@@ -113,7 +113,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = $"DELETE from Usuario WHERE id = @id;";
+                command.CommandText = @"DELETE from Usuario WHERE id = @id;";
                 command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
                 int rowsAffected = command.ExecuteNonQuery();
@@ -132,7 +132,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
                 SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM usuario WHERE nombre_de_usuario = @nombre AND contrasenia = @contrasenia;";
+                command.CommandText = @"SELECT * FROM usuario WHERE nombre_de_usuario = @nombre AND contrasenia = @contrasenia;";
                 command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
                 command.Parameters.Add(new SQLiteParameter("@contrasenia", contrasenia));
                 connection.Open();
@@ -144,7 +144,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
                         usuario.Id = Convert.ToInt32(reader["id"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
                         usuario.Contrasenia = reader["contrasenia"].ToString();
-                        usuario.Rol = (enumRol)Convert.ToInt32(reader["rol"].ToString());
+                        usuario.Rol = (enumRol)Convert.ToInt32(reader["rol"].ToString()); // casteo del rol
                     }
                 }
                 connection.Close();

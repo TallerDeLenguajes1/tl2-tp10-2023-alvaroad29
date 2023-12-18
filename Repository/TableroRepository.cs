@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace tl2_tp10_2023_alvaroad29.Models
 {
-    public class TableroRepository : ITableroRepository
+    public class TableroRepository : ITableroRepository // hereda de la interface
     {
-        private readonly string cadenaConexion;
-        public TableroRepository(string cadenaConexion)
+        private readonly string cadenaConexion; // para injectar la cadena
+        public TableroRepository(string cadenaConexion) // la asigno en el constructor del repo
         {
             this.cadenaConexion = cadenaConexion;
         }
