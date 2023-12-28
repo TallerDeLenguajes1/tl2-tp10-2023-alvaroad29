@@ -5,9 +5,23 @@
 
 @model ListarTareasViewModel
 
-<div class="container">
-    <h2>Lista Tareas - tablero : @Model.NombreTablero</h2>
 
+
+
+<div class = "text-center">
+    <h1>Tablero : @Model.NombreTablero - Usuario propietario : @Model.UsuarioPropietario</h1>
+</div>
+
+<a type="button"  asp-controller="Tarea" asp-action="Create" asp-route-id="@Model.Id_tablero" class="link-crear icon-link shadow p-3 mb-2 bg-body-tertiary rounded">
+    <i class="bi bi-plus"></i>
+    Nuevo
+</a>
+
+<div class="card text-center">
+    <div class="card-header">
+         <h2>Tareas</h2>
+    </div>
+    <div class="card-body">
     <table class="table">
         <thead>
             <tr>
@@ -52,16 +66,27 @@
                         @* a veces no se manda el form, xqqq ???? *@
                     </td>
 
-                        
                     <td>
-                        <a asp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
-                    </td>
-                    <td>
-                        <a asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
-                    </td>
+                      <div class="nav-item dropdown-center">
+                            <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a type="button" aasp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                        <i class="bi bi-pencil-fill me-2"></i>
+                                            Modificar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a type="button" asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                        <i class="bi bi-trash-fill me-2"></i>
+                                        Eliminar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>  
                 </tr>
             }
         </tbody>
     </table>
-    <a type="button" class="btn btn-primary btn-lg" asp-controller="Tarea" asp-action="Create" asp-route-id="@Model.Id_tablero">Crear Tarea</a>
 </div>

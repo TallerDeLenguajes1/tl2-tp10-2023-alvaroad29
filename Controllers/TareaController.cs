@@ -67,9 +67,16 @@ public class TareaController : Controller
         try // esta de mas??
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            var tarea = new CrearTareaViewModel(_usuarioRepository.GetAll());
-            tarea.Id_tablero = id;
-            return View(tarea); 
+            
+            if (IsAdmin() || _tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            {
+                var tarea = new CrearTareaViewModel(_usuarioRepository.GetAll());
+                tarea.Id_tablero = id;
+                return View(tarea); 
+            }else
+            {
+                return RedirectToAction("Error");
+            }
         }
         catch (Exception ex)
         {
