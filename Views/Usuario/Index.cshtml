@@ -12,91 +12,65 @@
 
 
 
-<a type="button"  asp-controller="Usuario" asp-action="Create" class="link-crear icon-link shadow p-3 mb-2 bg-body-tertiary rounded">
-    <i class="bi bi-plus"></i>
-    Nuevo
-</a>
 
-<div class="card text-center">
-    <div class="card-header">
-         <h1>Usuarios</h1>
-    </div>
-    <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th hidden>ID</th> <!-- oculto el id--->
-                    <th>Usuario</th>
-                    <th>Rol</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var usuario in Model.UsuariosVM)
-                {
-                    <tr>
-                        <td hidden>@usuario.Id</td>
-                        <td>@usuario.NombreDeUsuario</td>
-                        <td>@usuario.Rol.ToString()</td>
-                        <td>
-                            <div class="nav-item dropdown-center">
-                                <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a type="button" asp-controller="Usuario" asp-action="Update" asp-route-id="@usuario.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
-                                            <i class="bi bi-pencil-fill me-2"></i>
-                                            Modificar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a type="button" asp-controller="Usuario" asp-action="Delete" asp-route-id="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
-                                            <i class="bi bi-trash-fill me-2"></i>
-                                            Eliminar
-                                        </a>  
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @* <a type="button" class="btn btn-primary btn-lg" asp-controller="Usuario" asp-action="Create">Crear Usuario</a> *@
+<section>
+    <article>
+
+        <a type="button"  asp-controller="Usuario" asp-action="Create" class="link-crear icon-link shadow p-3 mb-2 bg-body-tertiary rounded">
+            <i class="bi bi-plus"></i>
+            Nuevo
+        </a>
+        @* @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
+        { *@
+            <div class="card text-center">
+                <div class="card-header">
+                    <h1>Usuarios</h1>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th hidden>ID</th> <!-- oculto el id--->
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var usuario in Model.UsuariosVM)
+                            {
+                                <tr>
+                                    <td hidden>@usuario.Id</td>
+                                    <td>@usuario.NombreDeUsuario</td>
+                                    <td>@usuario.Rol.ToString()</td>
+                                    <td>
+                                        <div class="nav-item dropdown-center">
+                                            <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a type="button" asp-controller="Usuario" asp-action="Update" asp-route-id="@usuario.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                                        <i class="bi bi-pencil-fill me-2"></i>
+                                                        Modificar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a type="button" asp-controller="Usuario" asp-action="Delete" asp-route-id="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                                        <i class="bi bi-trash-fill me-2"></i>
+                                                        Eliminar
+                                                    </a>  
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @* }else
+        {
+
+        } *@
     </article>
 </section>
-
-@* 
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-@using PruebaMVC.ViewModels
-@model IndexProductoViewModel
-
-<h2>Product List</h2>
-
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th hidden>ID</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var producto in Model.ProductoViewModels)
-        {
-            <tr>
-                <td hidden>@producto.Id</td>
-                <td>@producto.Nombre</td>
-                <td>@producto.Precio</td>
-                <td>
-                    <a asp-controller="Producto" asp-action="EditarProducto" asp-route-idProducto="@producto.Id">Editar</a>
-                    <a asp-controller="Producto" asp-action="DeleteProducto" asp-route-idProducto="@producto.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
- *@

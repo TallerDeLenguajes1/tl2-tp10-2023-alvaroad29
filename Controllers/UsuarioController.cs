@@ -20,15 +20,10 @@ public class UsuarioController : Controller // hereda de controller
         try
         {
             if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); 
-    
-            if (IsAdmin())
-            {
-                return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
-            }else
-            {
-                ListaUsuariosViewModel usuarios = new ListaUsuariosViewModel(_usuarioRepository.GetById(Convert.ToInt32(HttpContext.Session.GetString("Id"))));
-                return View(usuarios); // le mando un ViewModel a la vista
-            }
+            if (!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"}); // o tiro un error??
+
+            return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
+
         }
         catch (Exception ex)
         {
@@ -43,8 +38,8 @@ public class UsuarioController : Controller // hereda de controller
     {
         try
         {
-            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            if(!IsAdmin()) return RedirectToAction("Error");
+            // if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            // if(!IsAdmin()) return RedirectToAction("Error");
             return View(new CrearUsuarioViewModel());
         }
         catch (Exception ex)
@@ -61,9 +56,8 @@ public class UsuarioController : Controller // hereda de controller
         try
         {
             if(!ModelState.IsValid) return RedirectToAction("Create"); // validación
-            if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
-
+            // if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            // if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
             Usuario usuario = new Usuario(u); // casteo
             _usuarioRepository.Create(usuario); // creo
             return RedirectToAction("Index"); // redirecciono
@@ -73,7 +67,6 @@ public class UsuarioController : Controller // hereda de controller
             _logger.LogError($"Error al crear usuario {ex.ToString()}");
             return RedirectToAction("Error");
         }
-        
     }
 
     [HttpGet]
@@ -135,7 +128,13 @@ public class UsuarioController : Controller // hereda de controller
             if (IsAdmin() || id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
             {
                 _usuarioRepository.Remove(id);
-                return RedirectToAction("Index");
+                if (id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+                {
+                    return RedirectToRoute(new {controller = "Login", action="Logout"});
+                }else
+                {
+                    return RedirectToAction("Index");
+                }
             }else
             {
                 return RedirectToAction("Error");
@@ -148,6 +147,27 @@ public class UsuarioController : Controller // hereda de controller
         }
     }
 
+    [HttpGet]
+    public IActionResult Configuracion() // listo los usuarios
+    {
+        try
+        {
+            if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); 
+                int id =  Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                string usuario = HttpContext.Session.GetString("Usuario");
+                string rol = HttpContext.Session.GetString("NivelDeAcceso");
+                UsuarioViewModel u = new UsuarioViewModel(usuario,rol,id);
+                return View(u);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al acceder a configuración de usuario {ex.ToString()}"); // loggeo el error
+            return RedirectToAction("Error"); 
+        }
+        
+    }
+    
+    
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
     private bool EstaLogeado() => !String.IsNullOrEmpty(HttpContext.Session.GetString("Usuario"));
 

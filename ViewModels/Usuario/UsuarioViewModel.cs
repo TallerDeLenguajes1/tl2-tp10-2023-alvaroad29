@@ -13,5 +13,15 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
             Rol = usuario.Rol;
             Id = usuario.Id;
         }
+
+        public UsuarioViewModel(string usuario, string rol, int id){
+            NombreDeUsuario = usuario;
+            Rol = (enumRol)Enum.Parse(typeof(enumRol), rol);
+            Id = id;
+        }
+
+        public UsuarioViewModel(){
+
+        }
     }
 }

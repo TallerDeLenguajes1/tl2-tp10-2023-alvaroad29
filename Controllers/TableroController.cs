@@ -24,20 +24,21 @@ public class TableroController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            
+            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+            List<Tablero> misTableros = _tableroRepository.GetAllById(idUsuario);
+
+            List<Tablero> tablerosTareas = tablerosTareasAsignadas(idUsuario);
+
+            List<Usuario> usuarios = _usuarioRepository.GetAll();
 
             if (IsAdmin())
             {
-                return View(new ListaTablerosViewModel(_tableroRepository.GetAll(), _usuarioRepository.GetAll()));
+                List<Tablero> todosTableros = _tableroRepository.GetAll();
+                return View(new ListaTablerosViewModel(misTableros, tablerosTareas, todosTableros, usuarios));
             }else{
-                int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-                List<Tablero> misTableros = _tableroRepository.GetAllById(idUsuario);
-
-                List<Tablero> tablerosTareas = tablerosTareasAsignadas(idUsuario);
-
-                List<Usuario> usuarios = _usuarioRepository.GetAll();
-
                 return View(new ListaTablerosViewModel(misTableros,tablerosTareas,usuarios));
-                // return View("ListarTablerosOperador", new ListarTablerosOperadorViewModel(misTableros,tablerosTareas,usuarios));
             }
         }
         catch (Exception ex)

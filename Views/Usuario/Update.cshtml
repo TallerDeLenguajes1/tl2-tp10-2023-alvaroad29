@@ -26,15 +26,21 @@
                 </div>
                 <span asp-validation-for="@Model.Contrasenia" class="text-danger"></span>    
             </div>
-            <div class="mb-4">
-                <div class="input-group">
-                    <label asp-for="@Model.Rol" class="input-group-text" id="basic-addon1" >
-                        <img src="~/icons/users-gear-solid.svg" alt="inico usuarios">
-                    </label>
-                    <select asp-for="@Model.Rol" class="form-select"  class="form-control" asp-items="@Html.GetEnumSelectList<enumRol>()"></select>
+            <!-- un admin no se puede cambiar su propio rol --> 
+            @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString() && Context.Session.GetString("Id") != @Model.Id.ToString()) 
+            {
+                <div class="mb-4">
+                    <div class="input-group">
+                        <label asp-for="@Model.Rol" class="input-group-text" id="basic-addon1" >
+                            <img src="~/icons/users-gear-solid.svg" alt="inico usuarios">
+                        </label>
+                        <select asp-for="@Model.Rol" class="form-select"  class="form-control" asp-items="@Html.GetEnumSelectList<enumRol>()"></select>
+                    </div>
+                    <span asp-validation-for="@Model.Rol" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="@Model.Rol" class="text-danger"></span>
-            </div> 
+            }else{
+                <input hidden asp-for="@Model.Rol" value = "@enumRol.operador">
+            } 
             <div class=" d-grid gap-2 col-6 mx-auto">
                 <button type="submit"  class="btn btn-primary">Enviar</button>
             </div>
@@ -43,24 +49,3 @@
 </div>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }
-
-@* 
-
-@model MVC.ViewModels.ProductoViewModel
-
-<form asp-controller="Producto" asp-action="EditarProducto">
-    <input hidden asp-for="@Model.Id">
-    <div class="form-group">
-        <label asp-for="@Model.Nombre"></label>
-        <input asp-for="@Model.Nombre" class="form-control" />
-        <span asp-for="@Model.Nombre" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.Precio"></label>
-        <input asp-for="@Model.Precio" class="form-control" />
-        <span asp-for="@Model.Nombre" class="form-control" />
-    </div>
-    <button type="submit">Enviar</button>
-</form>
- *@

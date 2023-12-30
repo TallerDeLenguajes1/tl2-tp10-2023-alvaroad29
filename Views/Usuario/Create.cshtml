@@ -27,16 +27,21 @@
                 </div>
                 <span asp-validation-for="@Model.Contrasenia" class="text-danger"></span>    
             </div>
-            <div class="mb-4">
-                <div class="input-group">
-                    <label asp-for="@Model.Rol" class="input-group-text" id="basic-addon1" >
-                        <img src="~/icons/users-gear-solid.svg" alt="inico usuarios">
-                    </label>
-                    <select class="form-select" asp-for="@Model.Rol" class="form-control" asp-items="@Html.GetEnumSelectList<enumRol>()">
-                    </select>
+            @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
+            {
+                <div class="mb-4">
+                    <div class="input-group">
+                        <label asp-for="@Model.Rol" class="input-group-text" id="basic-addon1" >
+                            <img src="~/icons/users-gear-solid.svg" alt="inico usuarios">
+                        </label>
+                        <select class="form-select" asp-for="@Model.Rol" class="form-control" asp-items="@Html.GetEnumSelectList<enumRol>()">
+                        </select>
+                    </div>
+                    <span asp-validation-for="@Model.Rol" class="text-danger"></span>    
                 </div>
-                <span asp-validation-for="@Model.Rol" class="text-danger"></span>    
-            </div>
+            }else{
+                <input hidden asp-for="@Model.Rol" value = "@enumRol.operador">
+            }
             <div class=" d-grid gap-2 col-6 mx-auto">
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>

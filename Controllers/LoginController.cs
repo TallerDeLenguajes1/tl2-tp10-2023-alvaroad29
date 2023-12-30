@@ -33,7 +33,8 @@ public class LoginController : Controller
             // si el usuario no existe devuelvo al index
             if (usuarioLogeado == null){
                 _logger.LogWarning("Intento de acceso invalido - Usuario: " + usuario.NombreDeUsuario + " Clave ingresada: " + usuario.Contrasenia);
-                return RedirectToAction("Index"); //el formulario
+                ModelState.AddModelError(string.Empty, "Nombre de usuario o contraseña incorrectos.");
+                return View("Index", usuario); //el formulario
             }    
 
             _logger.LogInformation("El usuario: " + usuario.NombreDeUsuario + " Ingreso correctamente"); // logs
@@ -47,10 +48,19 @@ public class LoginController : Controller
         catch (Exception ex)
         {
             _logger.LogError($"Error al intentar logear un usuario {ex.ToString()}");
+            ModelState.AddModelError(string.Empty, "Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo.");
+            return View("Index", usuario); 
             //return BadRequest();
         }
         return RedirectToRoute(new { controller = "Home", action = "Index" });
         
+    }
+
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToRoute(new { controller = "Home", action = "Index" });
     }
 
     private void logearUsuario(Usuario user) // seteo los campos 

@@ -26,33 +26,77 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-end pe-4"  >
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                        </li> *@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Index">Tableros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tarea" asp-action="MisTareas">Mis Tareas</a>
-                        </li>
+                        
+                        @if(!string.IsNullOrEmpty(Context.Session.GetString("Usuario")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Index">Tableros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tarea" asp-action="MisTareas">Mis Tareas</a>
+                            </li>
+
+                            @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
+                                </li>
+                            }
+                        }
+                        
+                        @if(!string.IsNullOrEmpty(Context.Session.GetString("Usuario")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i>
+                                    @Context.Session.GetString("Usuario")
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @* <li><hr class="dropdown-divider" /></li> *@
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Usuario" asp-action="Configuracion" asp-route-id= "@Context.Session.GetString("Id")">
+                                            <i class="bi bi-gear-fill"></i>
+                                            Configuración
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Login" asp-action="Logout">
+                                            <i class="bi bi-power"></i>
+                                            Cerrar sesión
+                                        </a>
+                                    </li>
+                                    @* <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Delete">Eliminar</a></li> *@
+                                </ul>
+                            </li>
+                        }else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Login" asp-action="Index">Ingresar</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Create">Crear Usuario</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container principal-content">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class = "cont-p">
+        <div class="container principal-content">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
-
-    <footer class="border-top footer text-muted" >
-        <div  class="text-center">
+    <footer class="border-top footer" >
+        <div class="text-center">
             &copy; 2023 - Alvaro Augusto Diaz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

@@ -38,7 +38,20 @@
             <div class=" d-grid gap-2 col-6 mx-auto">
                 <button type="submit" class="btn btn-primary btn-lg">Iniciar sesión</button>
             </div>
+            <div class="text-center py-3 mt-3">
+                <div class="small"><a asp-controller="Usuario" asp-action="Create">¿No tienes una cuenta? Registrate</a></div>
+            </div>
         </form>
+        
+        @if (ViewData.ModelState.Count > 0)
+        {
+            <div class="alert alert-danger" role="alert">
+                @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@modelError.ErrorMessage</li>
+                }
+            </div>
+        }
     </article>
 </section>
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }
