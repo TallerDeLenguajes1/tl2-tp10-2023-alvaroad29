@@ -16,7 +16,16 @@
                     </label>
                     <input asp-for="@Model.NombreDeUsuario" class="form-control" placeholder="nombre de usuario" aria-label="nombre de usuario" aria-describedby="basic-addon1"/>
                 </div>
-                <span asp-validation-for="@Model.NombreDeUsuario" class="text-danger"></span>    
+                <span asp-validation-for="@Model.NombreDeUsuario" class="text-danger"></span>
+                @* @if (ViewData.ModelState.Count > 0)
+                {
+                    <span class="text-danger" >
+                        @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            @modelError.ErrorMessage
+                        }
+                    </span>
+                }     *@
             </div>
             <div class="mb-4">
                 <div class="input-group">

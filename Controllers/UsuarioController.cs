@@ -21,16 +21,13 @@ public class UsuarioController : Controller // hereda de controller
         {
             if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); 
             if (!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"}); // o tiro un error??
-
             return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
-
         }
         catch (Exception ex)
         {
             _logger.LogError($"Error al acceder a los usuarios {ex.ToString()}"); // loggeo el error
             return RedirectToAction("Error"); //?
         }
-        
     }
 
     [HttpGet]
@@ -55,9 +52,13 @@ public class UsuarioController : Controller // hereda de controller
     {
         try
         {
-            if(!ModelState.IsValid) return RedirectToAction("Create"); // validación
-            // if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            // if(!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            if(_usuarioRepository.ExistUser(u.NombreDeUsuario))
+            {
+                ModelState.AddModelError("NombreDeUsuario", "El nombre de usuario ingresado ya existe.");
+            }
+            
+            if(!ModelState.IsValid) return View(u); // validación
+        
             Usuario usuario = new Usuario(u); // casteo
             _usuarioRepository.Create(usuario); // creo
             return RedirectToAction("Index"); // redirecciono

@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Tableros"; // titulo de la pestaña
 }
 
@@ -15,8 +15,11 @@
          <h1>Tableros</h1>
     </div>
     <div class="card-body">
-        <table class="table caption-top" >    
-            <caption>Mis tableros</caption>
+        
+        @if (Model.TodosTablerosVM.Count != 0)
+        {
+        <table class="table caption-top" >
+            <caption>Todos los tableros</caption>
             <thead>
                 <tr>
                     <th hidden>ID</th> <!-- oculto el id--->
@@ -28,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var t in Model.MisTablerosVM)
+                @foreach (var t in Model.TodosTablerosVM)
                 {
                     <tr>
                         <td hidden>@t.Id</td>
@@ -68,59 +71,6 @@
                 }
             </tbody>
         </table>
-
-        <table class="table caption-top" >
-            <caption>Tableros con tareas asignadas</caption>
-            <thead>
-                <tr>
-                    <th hidden>ID</th> <!-- oculto el id--->
-                    <th>Usuario propietario</th>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var t in Model.TablerosTareasVM)
-                {
-                    <tr>
-                        <td hidden>@t.Id</td>
-                        <td>@t.nombreUsuarioPropietario</td>
-                        <td>@t.Nombre</td>
-                        <td>@t.Descripcion</td>
-                        <td class = "td-dropdown">
-                        @if(t.Modificable == true || Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
-                        {
-                            <div class="nav-item dropdown-center">
-                                <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a type="button" asp-controller="Tablero" asp-action="Update" asp-route-id="@t.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
-                                            <i class="bi bi-pencil-fill me-2"></i>
-                                                Modificar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a type="button" asp-controller="Tablero" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
-                                            <i class="bi bi-trash-fill me-2"></i>
-                                            Eliminar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        }
-                        </td>
-                        <td>
-                            <a type="button" class="btn btn-primary" asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id">
-                                <i class="bi bi-plus-lg"></i>
-                                Ver Tareas
-                            </a>
-                            @* <a asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id" class="btn btn-primary">Ver Tareas</a> *@
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        }
     </div>
 </div>

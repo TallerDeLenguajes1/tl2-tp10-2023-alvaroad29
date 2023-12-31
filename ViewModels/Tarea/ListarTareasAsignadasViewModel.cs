@@ -18,7 +18,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
             foreach (var t in tareas)
             {
                 TareaViewModel tareaVM = new TareaViewModel(t);
-                if(t.IdUsuarioAsignado == idUsuario || tablero.IdUsuarioPropietario == idUsuario)
+                if(t.IdUsuarioAsignado == idUsuario) //  || tablero.IdUsuarioPropietario == idUsuario
                 {
                     tareaVM.Modificable = true;
                     tareaVM.NombreUsuarioAsignado = usuarios.FirstOrDefault(u => u.Id == tareaVM.IdUsuarioAsignado)?.NombreDeUsuario;

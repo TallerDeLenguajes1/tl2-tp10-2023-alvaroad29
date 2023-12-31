@@ -48,7 +48,7 @@
             <div class="alert alert-danger" role="alert">
                 @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    <li>@modelError.ErrorMessage</li>
+                    @modelError.ErrorMessage
                 }
             </div>
         }

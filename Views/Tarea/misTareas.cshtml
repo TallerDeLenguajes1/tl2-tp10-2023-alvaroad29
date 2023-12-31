@@ -5,40 +5,78 @@
 
 @model ListarMisTareasViewModel
 
-<div class="container">
-    <h2>Lista Tareas - tablero : @Model.NombreUsuarioAsignado</h2>
+<div class = "text-center">
+    <h1>Usuario Asignado : @Model.NombreUsuarioAsignado</h1>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th hidden>ID</th> <!-- oculto el id--->
-                <th hidden>Id tablero</th>
-                <th>Tablero</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Color</th>
-                <th>Estado</th>
-                <th hidden>Usuario asignado</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var t in Model.TareasVM)
-            {
+<div class="card text-center">
+    <div class="card-header">
+         <h2>Mis Tareas</h2>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td hidden>@t.Id</td>
-                    <td hidden>@t.Id_tablero</td>
-                     <td>@t.NombreTablero</td>
-                    <td>@t.Nombre</td>
-                    <td>@t.Descripcion</td>
-                    <td>@t.Color</td>
-                    <td>@t.Estado</td>
-                    <td hidden>@t.NombreUsuarioAsignado</td>
-                    @* <td>
-                        <a asp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="btn btn-primary">Modificar</a>
-                        <a asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="btn btn-primary">Eliminar</a>  
-                    </td> *@
+                    <th hidden>ID</th> <!-- oculto el id--->
+                    <th hidden>Id tablero</th>
+                    <th>Tablero</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Color</th>
+                    @* <th>Usuario asignado</th> *@
+                    <th>Estado</th>
+                    <th></th>
+                    @* <th></th> *@
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var t in Model.TareasVM)
+                {
+                    <tr>
+                        <td hidden>@t.Id</td>
+                        <td hidden>@t.Id_tablero</td>
+                        <td>@t.NombreTablero</td>
+                        <td>@t.Nombre</td>
+                        <td>@t.Descripcion</td>
+                        <td>@t.Color</td>
+                        @* <td>@t.NombreUsuarioAsignado</td> *@
+                        <td>
+                            <form id="cambiarEstadoForm" asp-controller="Tarea" asp-action="UpdateEstado">
+                                <input type="hidden" name = "idTablero" value = "@t.Id_tablero">
+                                <input type="hidden" name = "id" value ="@t.Id" />
+                                <div class="input-group">
+                                    <select asp-for="@t.Estado" class="form-select" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()" id="estadoSelect" name = "estado">
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="submit">Cambiar</button>
+                                </div>
+                            </form>
+                        </td>
+                        
+                         @if(t.Modificable == true  || Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
+                        {
+                            <td>
+                                <div class="nav-item dropdown-center">
+                                    <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a type="button" aasp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                                <i class="bi bi-pencil-fill me-2"></i>
+                                                    Modificar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="button" asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                                <i class="bi bi-trash-fill me-2"></i>
+                                                Eliminar
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>  
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

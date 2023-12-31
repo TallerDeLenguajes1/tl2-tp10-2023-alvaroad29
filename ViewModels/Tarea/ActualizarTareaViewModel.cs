@@ -17,12 +17,12 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         public int? IdUsuarioAsignado { get; set; }
         public int Id_tablero { get; set; }
         public int Id{ get; set; }
-        private List<Usuario> usuarios = new List<Usuario>();
-        public List<Usuario> Usuarios { get => usuarios; set => usuarios = value; }
+        // private List<Usuario> usuarios = new List<Usuario>();
+        public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
 
         public ActualizarTareaViewModel(Tarea tarea, List<Usuario> usuarios)
         {
-            this.usuarios = usuarios;
+            Usuarios = usuarios;
     
             Nombre = tarea.Nombre;
             Descripcion = tarea.Descripcion;

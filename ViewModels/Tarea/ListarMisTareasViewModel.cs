@@ -15,7 +15,18 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
             foreach (var t in tareas)
             {
                 TareaViewModel tareaVM = new TareaViewModel(t);  
-                tareaVM.NombreTablero =  tableros.FirstOrDefault(t => t.Id == tareaVM.Id_tablero)?.Nombre;
+                
+                Tablero tableroVM =  tableros.FirstOrDefault(t => t.Id == tareaVM.Id_tablero);
+                
+                tareaVM.NombreTablero = tableroVM.Nombre;
+                
+                if(tableroVM.IdUsuarioPropietario == usuario.Id)
+                {
+                    tareaVM.Modificable = true;
+                }else
+                {
+                    tareaVM.Modificable = false;
+                }
                 TareasVM.Add(tareaVM);
             }
         }

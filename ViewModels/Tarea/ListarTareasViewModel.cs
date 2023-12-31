@@ -13,9 +13,9 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         public ListarTareasViewModel(List<Tarea> tareas, List<Usuario> usuarios, TableroViewModel tablero)
         {
             TareasVM = new List<TareaViewModel>();
-            this.NombreTablero = tablero.Nombre;
-            UsuarioPropietario = usuarios.FirstOrDefault(u => u.Id == tablero.IdUsuarioPropietario)?.NombreDeUsuario;
+            NombreTablero = tablero.Nombre;
             Id_tablero = tablero.Id;
+            UsuarioPropietario = usuarios.FirstOrDefault(u => u.Id == tablero.IdUsuarioPropietario)?.NombreDeUsuario;
             foreach (var t in tareas)
             {
                 TareaViewModel tareaVM = new TareaViewModel(t);
@@ -27,7 +27,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                     tareaVM.NombreUsuarioAsignado = usuarios.FirstOrDefault(u => u.Id == tareaVM.IdUsuarioAsignado)?.NombreDeUsuario;
                 }
 
-                tareaVM.Modificable = true;
+                //tareaVM.Modificable = true;
                 TareasVM.Add(tareaVM);
             }
         }

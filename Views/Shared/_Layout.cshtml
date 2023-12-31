@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid ">
-                <a class="navbar-brand ps-4" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand ps-4" asp-area="" asp-controller="Tablero" asp-action="Index">
                      <img src="~/img/logo.svg" alt="logo" width="30" height="30" class="d-inline-block align-text-top">
                     <span class = "text-primary">To-Do</span> <span> List</span>
                 </a>
@@ -25,23 +25,26 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-end pe-4"  >
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
+                        </li> *@
                         
                         @if(!string.IsNullOrEmpty(Context.Session.GetString("Usuario")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Index">Tableros</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Index">Mis Tableros</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Tarea" asp-action="MisTareas">Mis Tareas</a>
                             </li>
-
                             @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="TodosTableros">Tableros</a>
                                 </li>
                             }
                         }

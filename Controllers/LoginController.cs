@@ -43,7 +43,7 @@ public class LoginController : Controller
             logearUsuario(usuarioLogeado);
 
             //Devuelvo el usuario al Home
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToRoute(new { controller = "Tablero", action = "Index" });
         }
         catch (Exception ex)
         {
@@ -52,7 +52,7 @@ public class LoginController : Controller
             return View("Index", usuario); 
             //return BadRequest();
         }
-        return RedirectToRoute(new { controller = "Home", action = "Index" });
+        //return RedirectToRoute(new { controller = "Home", action = "Index" });
         
     }
 
@@ -60,7 +60,7 @@ public class LoginController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
-        return RedirectToRoute(new { controller = "Home", action = "Index" });
+        return RedirectToRoute(new { controller = "Login", action = "Index" });
     }
 
     private void logearUsuario(Usuario user) // seteo los campos 

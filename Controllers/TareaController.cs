@@ -31,7 +31,7 @@ public class TareaController : Controller
             List<Usuario> usuarios = _usuarioRepository.GetAll();
             TableroViewModel tableroVM = new TableroViewModel(tablero);
 
-            if (IsAdmin() || tablero.IdUsuarioPropietario == idUsuario) // admin o operador
+            if (IsAdmin() || tablero.IdUsuarioPropietario == idUsuario) // admin o operador dueño del tab.
             {
                 return View(new ListarTareasViewModel(tareas, usuarios, tableroVM)); 
             }else
@@ -52,7 +52,15 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            return View(new ListarMisTareasViewModel(_tareaRepository.GetAllByIdUsuario(Convert.ToInt32(HttpContext.Session.GetString("Id"))), _tableroRepository.GetAll(),_usuarioRepository.GetById(Convert.ToInt32(HttpContext.Session.GetString("Id")))));
+
+            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            List<Tarea> misTareas = _tareaRepository.GetAllByIdUsuario(idUsuario);
+
+            List<Tablero> tableros = _tableroRepository.GetAll();
+
+            Usuario usuario = _usuarioRepository.GetById(idUsuario);
+
+            return View(new ListarMisTareasViewModel(misTareas, tableros, usuario));
         }
         catch (Exception ex)
         {

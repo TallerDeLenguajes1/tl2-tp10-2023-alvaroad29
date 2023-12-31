@@ -152,5 +152,26 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
             return usuario;
         }
+
+        public bool ExistUser(string nombre)
+        {
+            bool existe = false;
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = @"SELECT * FROM usuario WHERE nombre_de_usuario = @nombre;";
+                command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
+                connection.Open();
+                using(SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        existe = true;
+                    }
+                }
+                connection.Close();
+            }
+            return existe;
+        }
     }
 }

@@ -33,17 +33,31 @@ public class TableroController : Controller
 
             List<Usuario> usuarios = _usuarioRepository.GetAll();
 
-            if (IsAdmin())
-            {
-                List<Tablero> todosTableros = _tableroRepository.GetAll();
-                return View(new ListaTablerosViewModel(misTableros, tablerosTareas, todosTableros, usuarios));
-            }else{
-                return View(new ListaTablerosViewModel(misTableros,tablerosTareas,usuarios));
-            }
+            return View(new ListaTablerosViewModel(misTableros,tablerosTareas,usuarios));
+
         }
         catch (Exception ex)
         {
             _logger.LogError($"Error al acceder a los tableros {ex.ToString()}");
+            return RedirectToAction("Error"); //?
+        }
+    }
+
+    [HttpGet]
+    public IActionResult TodosTableros() 
+    {
+        try
+        {
+            if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); 
+            if (!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"}); // o tiro un error??
+
+            List<Tablero> todosTableros = _tableroRepository.GetAll();
+            List<Usuario> usuarios = _usuarioRepository.GetAll();
+            return View(new ListaTablerosViewModel(todosTableros, usuarios));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al acceder a todos los tableros {ex.ToString()}"); // loggeo el error
             return RedirectToAction("Error"); //?
         }
     }
