@@ -167,6 +167,24 @@ public class UsuarioController : Controller // hereda de controller
         }
         
     }
+
+    [AcceptVerbs("GET", "POST")]
+    public IActionResult VerifyUserName(string nombreDeUsuario)
+    {
+        if (_usuarioRepository.ExistUser(nombreDeUsuario))
+        {
+            return Json($"El nombre de usuario {nombreDeUsuario} ya esta en uso.");
+        }
+        return Json(true);
+
+    }
+
+    // [HttpPost]
+    // public JsonResult VerifyUserName(string nombreDeUsuario)
+    // {
+    //     bool isUserNameValid = !_usuarioRepository.ExistUser(nombreDeUsuario);
+    //     return Json(isUserNameValid);
+    // }
     
     
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
