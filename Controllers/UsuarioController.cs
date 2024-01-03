@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using tl2_tp10_2023_alvaroad29.exceptions;
 using tl2_tp10_2023_alvaroad29.Models;
 using tl2_tp10_2023_alvaroad29.ViewModels;
 
@@ -76,22 +77,28 @@ public class UsuarioController : Controller // hereda de controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
             
-            if (IsAdmin() || id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            if (IsAdmin() || id == userIdInSession)
             {
                 return View(new ActualizarUsuarioViewModel(_usuarioRepository.GetById(id)));
             }
             else
             {
-                return RedirectToAction("Error");
+                 return RedirectToAction("Error", new { errorMessage = "No tienes permisos para acceder a esta página." });
             }
+        }
+        catch (UserDoesNotExistException ex)
+        {
+            _logger.LogError($"{ex.ToString()}");
+            return RedirectToAction("Error", new {errorMessage = ex.Message} );
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+             return RedirectToAction("Error");
         }
-        
     }
 
     [HttpPost]
@@ -178,14 +185,6 @@ public class UsuarioController : Controller // hereda de controller
         return Json(true);
 
     }
-
-    // [HttpPost]
-    // public JsonResult VerifyUserName(string nombreDeUsuario)
-    // {
-    //     bool isUserNameValid = !_usuarioRepository.ExistUser(nombreDeUsuario);
-    //     return Json(isUserNameValid);
-    // }
-    
     
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
     private bool EstaLogeado() => !String.IsNullOrEmpty(HttpContext.Session.GetString("Usuario"));
@@ -196,8 +195,14 @@ public class UsuarioController : Controller // hereda de controller
     // }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(string errorMessage =  "Ocurrió un error al procesar tu solicitud.")
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var errorViewModel = new ErrorViewModel
+        {
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+            ErrorMessage = errorMessage
+        };
+
+        return View(errorViewModel);
     }
 }

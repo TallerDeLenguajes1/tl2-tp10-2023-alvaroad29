@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Threading.Tasks;
+using tl2_tp10_2023_alvaroad29.exceptions;
 
 namespace tl2_tp10_2023_alvaroad29.Models
 {
@@ -50,7 +51,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
                 if (rowsAffected == 0)
                 {
-                    throw new Exception("Usuario a actualizar no existe");
+                    throw new UserDoesNotExistException("Usuario a actualizar no existe");
                 }
             }
         }
@@ -104,7 +105,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
             
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new UserDoesNotExistException("Usuario no encontrado");
             }
             return usuario;
         }
@@ -121,7 +122,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
                 if (rowsAffected == 0)
                 {
-                    throw new Exception("Usuario a eliminar no existe");
+                    throw new UserDoesNotExistException("Usuario a eliminar no existe");
                 }
             }
         }
