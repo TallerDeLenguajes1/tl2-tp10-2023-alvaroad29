@@ -51,7 +51,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
 
                 if (rowsAffected == 0)
                 {
-                    throw new UserDoesNotExistException("Usuario a actualizar no existe");
+                    throw new UserDoesNotExistException();
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace tl2_tp10_2023_alvaroad29.Models
             
             if (usuario == null)
             {
-                throw new UserDoesNotExistException("Usuario no encontrado");
+                throw new UserDoesNotExistException();
             }
             return usuario;
         }
@@ -113,16 +113,23 @@ namespace tl2_tp10_2023_alvaroad29.Models
         {
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
-                SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = @"DELETE from Usuario WHERE id = @id;";
-                command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                int rowsAffected = command.ExecuteNonQuery();
-                connection.Close();
 
-                if (rowsAffected == 0)
+                using (SQLiteCommand pragmaCommand = new SQLiteCommand("PRAGMA foreign_keys = 1;", connection))
                 {
-                    throw new UserDoesNotExistException("Usuario a eliminar no existe");
+                    pragmaCommand.ExecuteNonQuery();
+                }
+
+                using (SQLiteCommand deleteCommand = connection.CreateCommand())
+                {
+                    deleteCommand.CommandText = @"DELETE from Usuario WHERE id = @id;";
+                    deleteCommand.Parameters.Add(new SQLiteParameter("@id", id));
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+                    connection.Close();
+                    if (rowsAffected == 0)
+                    {
+                        throw new UserDoesNotExistException();
+                    }
                 }
             }
         }

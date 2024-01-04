@@ -7,7 +7,7 @@ namespace tl2_tp10_2023_alvaroad29.exceptions
 {
     public class UserDoesNotExistException : Exception
     {
-        public UserDoesNotExistException() { }
+        public UserDoesNotExistException() : base ("Usuario no existente"){ }
 
         public UserDoesNotExistException(string message) 
             : base(message) { }

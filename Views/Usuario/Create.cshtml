@@ -57,4 +57,12 @@
         </form>
     </div>
 </div>
-@section Scripts { <partial name="_ValidationScriptsPartial" /> }
+@section Scripts { <partial name="_ValidationScriptsPartial" /> 
+    <script>
+         $(document).ready(function () {
+        $("#NombreDeUsuario").keyup(function () {
+            $("#NombreDeUsuario").valid();
+        });
+    });
+    </script>
+}

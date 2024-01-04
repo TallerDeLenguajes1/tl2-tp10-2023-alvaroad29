@@ -136,17 +136,26 @@ namespace tl2_tp10_2023_alvaroad29.Models
         {
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
-                SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = @"DELETE FROM Tablero WHERE id = @id;";
-                command.Parameters.Add(new SQLiteParameter("@id", id));
                 connection.Open();
-                int rowsAffected = command.ExecuteNonQuery();
-                connection.Close();
 
-                if (rowsAffected == 0)
+                using (SQLiteCommand pragmaCommand = new SQLiteCommand("PRAGMA foreign_keys = 1;", connection))
                 {
-                    throw new Exception("Tablero a eliminar no existe");
+                    pragmaCommand.ExecuteNonQuery();
                 }
+
+                using (SQLiteCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"DELETE FROM Tablero WHERE id = @id;";
+                    command.Parameters.Add(new SQLiteParameter("@id", id));
+                    int rowsAffected = command.ExecuteNonQuery();
+                    connection.Close();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("Tablero a eliminar no existe");
+                    }
+                }
+                
             }
         }
     }

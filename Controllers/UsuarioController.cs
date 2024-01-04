@@ -21,13 +21,13 @@ public class UsuarioController : Controller // hereda de controller
         try
         {
             if (!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"}); 
-            if (!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"}); // o tiro un error??
+            if (!IsAdmin()) return RedirectToRoute(new {controller = "Login", action="Index"});
             return View(new ListaUsuariosViewModel(_usuarioRepository.GetAll()));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error al acceder a los usuarios {ex.ToString()}"); // loggeo el error
-            return RedirectToAction("Error"); //?
+            _logger.LogError($"Error al acceder a los usuarios {ex.ToString()}");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
@@ -36,16 +36,13 @@ public class UsuarioController : Controller // hereda de controller
     {
         try
         {
-            // if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            // if(!IsAdmin()) return RedirectToAction("Error");
             return View(new CrearUsuarioViewModel());
         }
         catch (Exception ex)
         {
             _logger.LogError($"Error al crear usuario {ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
-       
     }
 
     [HttpPost]
@@ -67,7 +64,7 @@ public class UsuarioController : Controller // hereda de controller
         catch (Exception ex)
         {
             _logger.LogError($"Error al crear usuario {ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
@@ -86,18 +83,18 @@ public class UsuarioController : Controller // hereda de controller
             }
             else
             {
-                 return RedirectToAction("Error", new { errorMessage = "No tienes permisos para acceder a esta página." });
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (UserDoesNotExistException ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error", new {errorMessage = ex.Message} );
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-             return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
@@ -109,7 +106,9 @@ public class UsuarioController : Controller // hereda de controller
         
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
             
-            if (IsAdmin() || u.Id == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+            if (IsAdmin() || u.Id == userIdInSession)
             {
                 Usuario usuario = new Usuario(u);
                 _usuarioRepository.Update(usuario.Id, usuario);
@@ -117,13 +116,20 @@ public class UsuarioController : Controller // hereda de controller
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
+        }
+        catch (UserDoesNotExistException ex)
+        {
+            _logger.LogError($"{ex.ToString()}");
+            Response.StatusCode = 404;
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+            Response.StatusCode = 500;
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
         
     }
@@ -145,13 +151,13 @@ public class UsuarioController : Controller // hereda de controller
                 }
             }else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
@@ -170,7 +176,7 @@ public class UsuarioController : Controller // hereda de controller
         catch (Exception ex)
         {
             _logger.LogError($"Error al acceder a configuración de usuario {ex.ToString()}"); // loggeo el error
-            return RedirectToAction("Error"); 
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
         
     }
@@ -178,11 +184,19 @@ public class UsuarioController : Controller // hereda de controller
     [AcceptVerbs("GET", "POST")]
     public IActionResult VerifyUserName(string nombreDeUsuario)
     {
-        if (_usuarioRepository.ExistUser(nombreDeUsuario))
+        try
         {
-            return Json($"El nombre de usuario {nombreDeUsuario} ya esta en uso.");
+            if (_usuarioRepository.ExistUser(nombreDeUsuario))
+            {
+                return Json($"El nombre de usuario {nombreDeUsuario} ya esta en uso.");
+            }
+            return Json(true);
         }
-        return Json(true);
+        catch (Exception ex)
+        {
+            _logger.LogError($"{ex.Message}"); // loggeo el error
+            return RedirectToRoute(new {controller = "Home", action="Error"});
+        }
 
     }
     
@@ -194,15 +208,15 @@ public class UsuarioController : Controller // hereda de controller
     //     return View();
     // }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(string errorMessage =  "Ocurrió un error al procesar tu solicitud.")
-    {
-        var errorViewModel = new ErrorViewModel
-        {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-            ErrorMessage = errorMessage
-        };
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    // public IActionResult Error(string errorMessage =  "Ocurrió un error al procesar tu solicitud.")
+    // {
+    //     var errorViewModel = new ErrorViewModel
+    //     {
+    //         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+    //         ErrorMessage = errorMessage
+    //     };
 
-        return View(errorViewModel);
-    }
+    //     return View(errorViewModel);
+    // }
 }
