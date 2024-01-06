@@ -25,7 +25,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                 }else
                 {
                     tareaVM.Modificable = false;
-                    if (tareaVM.IdUsuarioAsignado == 0)
+                    if (tareaVM.IdUsuarioAsignado == null)
                     {
                         tareaVM.NombreUsuarioAsignado = "Sin asignar";
                     }else

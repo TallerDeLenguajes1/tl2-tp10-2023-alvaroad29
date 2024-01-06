@@ -45,7 +45,7 @@
                         <img  src="~/icons/user-solid.svg" alt="icono persona">
                     </label>
                     <select asp-for="@Model.IdUsuarioAsignado" class="form-select" class="form-control">
-                        <option selected value = "0">Sin Asignar</option>
+                        <option selected value = "">Sin Asignar</option>
                         @foreach (var usuario in Model.Usuarios)
                         {
                             <option value="@usuario.Id">@usuario.NombreDeUsuario</option>

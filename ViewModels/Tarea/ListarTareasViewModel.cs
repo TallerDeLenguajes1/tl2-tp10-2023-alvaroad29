@@ -19,7 +19,7 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
             foreach (var t in tareas)
             {
                 TareaViewModel tareaVM = new TareaViewModel(t);
-                if(tareaVM.IdUsuarioAsignado == 0)
+                if(tareaVM.IdUsuarioAsignado == null)
                 {
                     tareaVM.NombreUsuarioAsignado = "Sin asignar";  
                 }else

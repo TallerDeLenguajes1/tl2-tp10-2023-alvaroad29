@@ -24,11 +24,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 justify-content-end pe-4"  >
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li> *@
-                        
+                    <ul class="navbar-nav flex-grow-1 justify-content-end pe-4"  >                        
                         @if(!string.IsNullOrEmpty(Context.Session.GetString("Usuario")))
                         {
                             <li class="nav-item">
@@ -71,7 +67,6 @@
                                             Cerrar sesión
                                         </a>
                                     </li>
-                                    @* <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Delete">Eliminar</a></li> *@
                                 </ul>
                             </li>
                         }else

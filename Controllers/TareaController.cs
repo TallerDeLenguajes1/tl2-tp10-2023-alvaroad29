@@ -72,7 +72,7 @@ public class TareaController : Controller
     [HttpGet]
     public IActionResult Create(int id)
     {
-        try // esta de mas??
+        try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
             
