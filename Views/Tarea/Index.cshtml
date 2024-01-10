@@ -18,95 +18,78 @@
 </a>
 
 <div class="card text-center">
-    @* <div class="card-header">
-         <h2>Tareas</h2>
-    </div> *@
     <div class="card-header">
-        
         <h4>
-            <i class="bi bi-clipboard-data-fill"></i>
-            @Model.NombreTablero
+             <i class="bi bi-clipboard-data-fill"></i>
+             @Model.NombreTablero
         </h4>
     </div>
     <div class="card-body">
-    
+    <table class="table">
+        <thead>
+            <tr>
+                <th hidden>ID</th> <!-- oculto el id--->
+                <th hidden>Id tablero</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Color</th>
+                <th>Usuario asignado</th>
+                <th>Estado</th>
+                <th></th>
+                @* <th></th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.TareasVM)
+            {
+                <tr>
+                    <td hidden>@t.Id</td>
+                    <td hidden>@t.Id_tablero</td>
+                    <td>@t.Nombre</td>
+                    <td>@t.Descripcion</td>
+                    <td>@t.Color</td>
+                    <td>@t.NombreUsuarioAsignado</td>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var estado in Model.TareasPorEstado)
-        {
-            <div class="col">
-                <h5 class="card-title">@estado.Key</h5>
-                <div class="card" style="height: 200px;">
-                    <div class="card-body overflow-auto">
-                        <ul class="list-group list-group-flush">
-                        @foreach(var t in estado.Value)
-                        {
-                             <button type="button" class="list-group-item li-index" data-bs-toggle="modal"
-                             data-bs-target="#modal-@(t.Id)">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <p>
-                                        @t.Nombre
-                                    </p>
-                                </div>
-                                
-                            @* </li> *@
-                            </button>
-                             <div class="modal fade" id="modal-@(t.Id)" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">@t.Nombre</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5>Descripcion:</h5>
-                                        <p>
-                                            @t.Descripcion
-                                        </p>
-
-                                        <h5>Usuario asignado:</h5>
-                                        <p>
-                                            @t.NombreUsuarioAsignado
-                                        </p>
-                                        <h5>Descripcion:</h5>
-                                        <form asp-controller="Tarea" asp-action="UpdateEstado">
-                                            <input type="hidden" name = "idTablero" value = "@t.Id_tablero">
-                                            <input type="hidden" name = "id" value ="@t.Id" />
-                                            <div class="input-group">
-                                                <select asp-for="@t.Estado" class="form-select" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()" name = "estado">
-                                                </select>
-                                            </div>
-                                        </form>
-                                    <div class="nav-item dropdown-center">
-                                        <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a type="button" aasp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
-                                                    <i class="bi bi-pencil-fill me-2"></i>
-                                                        Modificar
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a type="button" asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
-                                                    <i class="bi bi-trash-fill me-2"></i>
-                                                    Eliminar
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    </div>
-                                    @* <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Understood</button>
-                                    </div> *@
-                                    </div>
-                                </div>
+                    <td>
+                        <form asp-controller="Tarea" asp-action="UpdateEstado">
+                            <input type="hidden" name = "idTablero" value = "@t.Id_tablero">
+                            <input type="hidden" name = "id" value ="@t.Id" />
+                            <div class="input-group">
+                                <select asp-for="@t.Estado" class="form-select" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()" name = "estado">
+                                </select>
+                                 <button class="btn btn-outline-secondary" type="submit">Cambiar</button>
                             </div>
-                        }
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+                        </form>
+
+                        @* <script>
+                            document.getElementById("estadoSelect").addEventListener("change", function () {
+                                document.getElementById("cambiarEstadoForm").submit();
+                            });
+                        </script>  *@
+                        @* a veces no se manda el form, xqqq ???? *@
+                    </td>
+
+                    <td>
+                      <div class="nav-item dropdown-center">
+                            <i class="bi bi-three-dots-vertical" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a type="button" aasp-controller="Tarea" asp-action="Update" asp-route-id="@t.Id" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                        <i class="bi bi-pencil-fill me-2"></i>
+                                            Modificar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a type="button" asp-controller="Tarea" asp-action="Delete" asp-route-id="@t.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')" class="dropdown-item d-flex align-items-center" aria-pressed="false">
+                                        <i class="bi bi-trash-fill me-2"></i>
+                                        Eliminar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>  
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

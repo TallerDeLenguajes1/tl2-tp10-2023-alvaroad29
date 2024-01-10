@@ -1,5 +1,10 @@
+@{
+    ViewData["Title"] = "Crear tarea";
+}
+
 @using tl2_tp10_2023_alvaroad29.ViewModels
 @model CrearTareaViewModel
+
 
 <div class="row justify-content-center ">
     <div class="col-5">
@@ -25,7 +30,8 @@
             <div class="mb-4">
                 <div class="input-group">
                     @* <label asp-for="@Model.Color">Color</label> *@
-                    <input type = "color" value="#000000" asp-for="@Model.Color" class="form-control" placeholder="color" aria-label="color"/>
+                    <label class="input-group-text" asp-for="@Model.Color">color</label>
+                    <input type = "color" value="#000000" asp-for="@Model.Color" class="form-control form-control-color" placeholder="color" aria-label="color"/>
                 </div>
                 <span asp-validation-for="@Model.Color" class="text-danger"></span>    
             </div>

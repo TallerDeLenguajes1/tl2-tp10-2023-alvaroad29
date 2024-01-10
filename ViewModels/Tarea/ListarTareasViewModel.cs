@@ -8,8 +8,6 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
         public string UsuarioPropietario { get; set; }
         public int Id_tablero { get; set; }
         public List<TareaViewModel> TareasVM { get; set; }
-        
-        public Dictionary<EstadoTarea, List<TareaViewModel>> TareasPorEstado { get; set; }
 
         public ListarTareasViewModel(List<Tarea> tareas, List<Usuario> usuarios, TableroViewModel tablero)
         {
@@ -28,12 +26,6 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
                     tareaVM.NombreUsuarioAsignado = usuarios.FirstOrDefault(u => u.Id == tareaVM.IdUsuarioAsignado)?.NombreDeUsuario;
                 }
                 TareasVM.Add(tareaVM);
-            }
-
-            TareasPorEstado = new Dictionary<EstadoTarea, List<TareaViewModel>>();
-            foreach (EstadoTarea estado in Enum.GetValues(typeof(EstadoTarea)))
-            {
-                TareasPorEstado[estado] = TareasVM.Where(t => t.Estado == estado).ToList();
             }
         }
 
