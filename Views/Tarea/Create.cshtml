@@ -25,7 +25,7 @@
             <div class="mb-4">
                 <div class="input-group">
                     @* <label asp-for="@Model.Color">Color</label> *@
-                    <input asp-for="@Model.Color" class="form-control" placeholder="color" aria-label="color"/>
+                    <input type = "color" value="#000000" asp-for="@Model.Color" class="form-control" placeholder="color" aria-label="color"/>
                 </div>
                 <span asp-validation-for="@Model.Color" class="text-danger"></span>    
             </div>

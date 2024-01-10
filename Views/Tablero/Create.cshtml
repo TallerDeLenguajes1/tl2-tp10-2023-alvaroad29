@@ -17,7 +17,7 @@
                 <span asp-validation-for="@Model.Nombre" class="text-danger"></span>    
             </div>
 
-            @if(@Model.NivelDeAcceso == "admin")
+            @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
             {
                 <div class="mb-4">
                     <div class="input-group">

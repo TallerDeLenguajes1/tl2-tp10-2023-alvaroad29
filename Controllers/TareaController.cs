@@ -25,47 +25,45 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            
             Tablero tablero = _tableroRepository.GetById(id);
-            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
             List<Tarea> tareas = _tareaRepository.GetAllByIdTablero(id);
             List<Usuario> usuarios = _usuarioRepository.GetAll();
             TableroViewModel tableroVM = new TableroViewModel(tablero);
 
-            if (IsAdmin() || tablero.IdUsuarioPropietario == idUsuario) // admin o operador dueño del tab.
+            if (IsAdmin() || tablero.IdUsuarioPropietario == userIdInSession) // admin o operador dueño del tab.
             {
                 return View(new ListarTareasViewModel(tareas, usuarios, tableroVM)); 
             }else
             {
-                return View("ListarTareasAsignadas", new ListarTareasAsignadasViewModel(tareas, usuarios, tableroVM, idUsuario));
+                return View("ListarTareasAsignadas", new ListarTareasAsignadasViewModel(tareas, usuarios, tableroVM, userIdInSession));
             }     
         }
         catch (Exception ex)
         {
             _logger.LogError($"Error al acceder a las tareas{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
-        
     }
 
+    [HttpGet]
     public IActionResult MisTareas()
     {
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-
-            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-            List<Tarea> misTareas = _tareaRepository.GetAllByIdUsuario(idUsuario);
-
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            List<Tarea> misTareas = _tareaRepository.GetAllByIdUsuario(userIdInSession);
             List<Tablero> tableros = _tableroRepository.GetAll();
-
-            Usuario usuario = _usuarioRepository.GetById(idUsuario);
-
+            Usuario usuario = _usuarioRepository.GetById(userIdInSession);
             return View(new ListarMisTareasViewModel(misTareas, tableros, usuario));
         }
         catch (Exception ex)
         {
             _logger.LogError($"Error al acceder a las tareas{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
@@ -75,21 +73,22 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            
-            if (IsAdmin() || _tableroRepository.GetById(id).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+            if (IsAdmin() || _tableroRepository.GetById(id).IdUsuarioPropietario == userIdInSession)
             {
                 var tarea = new CrearTareaViewModel(_usuarioRepository.GetAll());
                 tarea.Id_tablero = id;
                 return View(tarea); 
             }else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"Error al crear tarea {ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
         
     }
@@ -108,7 +107,7 @@ public class TareaController : Controller
         catch (Exception ex)
         {
             _logger.LogError($"Error al crear tarea {ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
@@ -118,19 +117,20 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
             Tarea nuevaTarea = _tareaRepository.GetById(id);
-            if (IsAdmin() || _tableroRepository.GetById(nuevaTarea.Id_tablero).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))) // solo admin y propietario de la tarea
+            if (IsAdmin() || _tableroRepository.GetById(nuevaTarea.Id_tablero).IdUsuarioPropietario == userIdInSession) // solo admin y propietario de la tarea
             {
                 return View(new ActualizarTareaViewModel(nuevaTarea, _usuarioRepository.GetAll()));
             }else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }     
     }
 
@@ -140,19 +140,22 @@ public class TareaController : Controller
         {
             if(!ModelState.IsValid) return RedirectToAction("Update");
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
-            if(IsAdmin() || _tableroRepository.GetById(t.Id_tablero).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id"))){
+
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+            if(IsAdmin() || _tableroRepository.GetById(t.Id_tablero).IdUsuarioPropietario == userIdInSession){
                 Tarea tarea = new Tarea(t);
                 _tareaRepository.Update(tarea.Id, tarea);
                 return RedirectToAction("Index", new{id = tarea.Id_tablero});
             }else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         } 
     }
 
@@ -163,22 +166,22 @@ public class TareaController : Controller
             // if(!ModelState.IsValid) return RedirectToAction("Update");
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
             Tarea tarea = _tareaRepository.GetById(id);
-            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-            if(IsAdmin() || _tableroRepository.GetById(idTablero).IdUsuarioPropietario == idUsuario || tarea.IdUsuarioAsignado == idUsuario)
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+            if(IsAdmin() || _tableroRepository.GetById(idTablero).IdUsuarioPropietario == userIdInSession || tarea.IdUsuarioAsignado == userIdInSession)
             {
-                
                 tarea.Estado = estado;
                 _tareaRepository.Update(id, tarea);
                 return RedirectToAction("Index", new{id = idTablero});
             }else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         } 
     }
 
@@ -187,31 +190,25 @@ public class TareaController : Controller
         try
         {
             if(!EstaLogeado()) return RedirectToRoute(new {controller = "Login", action="Index"});
+            int userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("Id"));
 
             Tarea tareaEliminar = _tareaRepository.GetById(id);
-            if (IsAdmin() || _tableroRepository.GetById(tareaEliminar.Id_tablero).IdUsuarioPropietario == Convert.ToInt32(HttpContext.Session.GetString("Id")))
+            if (IsAdmin() || _tableroRepository.GetById(tareaEliminar.Id_tablero).IdUsuarioPropietario == userIdInSession)
             {
                 _tareaRepository.Remove(id);
                 return RedirectToAction("Index");   
             }else
             {
-                return RedirectToAction("Error");
+                return RedirectToRoute(new {controller = "Home", action="Error"});
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex.ToString()}");
-            return RedirectToAction("Error");
+            return RedirectToRoute(new {controller = "Home", action="Error"});
         }
     }
 
     private bool IsAdmin() => HttpContext.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString();
     private bool EstaLogeado() => !String.IsNullOrEmpty(HttpContext.Session.GetString("Usuario"));
-
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
 }

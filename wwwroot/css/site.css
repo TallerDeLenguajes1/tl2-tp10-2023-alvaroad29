@@ -94,3 +94,12 @@ footer{
   background-color: #c8e4fc;
   color: black;
 }
+
+
+
+.li-index
+{
+    background-color: grey;
+    margin: 0.1rem;
+    border-radius: 10px;
+}
