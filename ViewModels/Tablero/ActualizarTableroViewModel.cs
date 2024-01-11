@@ -7,11 +7,13 @@ namespace tl2_tp10_2023_alvaroad29.ViewModels
     public class ActualizarTableroViewModel
     {
         [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(100, MinimumLength = 1, ErrorMessage = "Este campo debe contener entre 1 y 100 caracteres.")]
         [Display(Name = "Nombre de tablero")]
         public string Nombre{ get; set; }
         public int IdUsuarioPropietario{ get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido.")]
+        [StringLength(1000, MinimumLength = 1, ErrorMessage = "Este campo debe contener entre 1 y 1000 caracteres.")]
         [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
 
