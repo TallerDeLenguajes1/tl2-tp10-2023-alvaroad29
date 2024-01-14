@@ -10,31 +10,31 @@
         Nuevo
 </a>
 
-<div class="card text-center">
-    <div class="card-header">
-         <h1>Tableros</h1>
+<div class="card">
+    <div class="card-header text-center">
+         <h4>Todos los tableros</h4>
     </div>
     <div class="card-body">
         
         @if (Model.TodosTablerosVM.Count != 0)
         {
-        <table class="table caption-top" >
-            <caption>Todos los tableros</caption>
+        <table class="display nowrap table-striped" style="width:100%" id="myTable" >
             <thead>
                 <tr>
-                    <th hidden>ID</th> <!-- oculto el id--->
+                    <th></th>
                     <th>Usuario propietario</th>
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th></th>
                     <th></th>
+                    <th hidden>ID</th> <!-- oculto el id--->
                 </tr>
             </thead>
             <tbody>
                 @foreach (var t in Model.TodosTablerosVM)
                 {
                     <tr>
-                        <td hidden>@t.Id</td>
+                        <td></td>
                         <td>@t.nombreUsuarioPropietario</td>
                         <td>@t.Nombre</td>
                         <td>@t.Descripcion</td>
@@ -65,8 +65,8 @@
                                 <i class="bi bi-plus-lg"></i>
                                 Ver Tareas
                             </a>
-                            @* <a asp-controller="Tarea" asp-action="Index" asp-route-id="@t.Id" class="btn btn-primary">Ver Tareas</a> *@
                         </td>
+                        <td hidden>@t.Id</td>
                     </tr>
                 }
             </tbody>
@@ -74,3 +74,4 @@
         }
     </div>
 </div>
+<script src="~/js/site5.js"></script>

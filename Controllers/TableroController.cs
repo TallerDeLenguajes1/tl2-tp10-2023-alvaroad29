@@ -138,7 +138,7 @@ public class TableroController : Controller
             {
                 Tablero tablero = new Tablero(t);
                 _tableroRepository.Update(tablero.Id, tablero);
-                return RedirectToAction("Update");
+                return RedirectToAction("index");
             }else
             {
                 return RedirectToRoute(new {controller = "Home", action="Error"});

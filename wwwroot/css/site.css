@@ -88,9 +88,14 @@ footer{
   text-decoration: none;
   color: black;
   font-size: 1.3rem;
+  background-color: #d3e3fd;
 }
 
 .link-crear:hover{
-  background-color: #c8e4fc;
+  background-color: #7cacf8;
   color: black;
+}
+
+#table-doble{
+  margin-top: 4rem !important;
 }

@@ -22,25 +22,26 @@
         </a>
         @* @if(Context.Session.GetString("NivelDeAcceso") == enumRol.admin.ToString())
         { *@
-            <div class="card text-center">
-                <div class="card-header">
-                    <h1>Usuarios</h1>
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Todos los usuarios</h4>
                 </div>
-                <div class="card-body">
-                    <table class="table">
+                <div  class="card-body">
+                    <table  class="display nowrap table-striped" style="width:100%" id="myTable">
                         <thead>
                             <tr>
-                                <th hidden>ID</th> <!-- oculto el id--->
+                                <th></th>
                                 <th>Usuario</th>
                                 <th>Rol</th>
                                 <th></th>
+                                <th hidden>ID</th> <!-- oculto el id--->
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var usuario in Model.UsuariosVM)
                             {
                                 <tr>
-                                    <td hidden>@usuario.Id</td>
+                                    <td></td>
                                     <td>@usuario.NombreDeUsuario</td>
                                     <td>@usuario.Rol.ToString()</td>
                                     <td>
@@ -62,15 +63,13 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    <td hidden>@usuario.Id</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-        @* }else
-        {
-
-        } *@
     </article>
 </section>
+<script src="~/js/site6.js"></script>

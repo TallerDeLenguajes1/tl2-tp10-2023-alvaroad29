@@ -9,16 +9,18 @@
     <h1>Usuario Asignado : @Model.NombreUsuarioAsignado</h1>
 </div> *@
 
-<div class="card text-center">
-    <div class="card-header">
-         <h2>Mis Tareas</h2>
+<div class="card">
+    <div class="card-header text-center">
+        <h4>
+             <i class="bi bi-clipboard-data-fill"></i>
+             Mis tareas
+        </h4>
     </div>
     <div class="card-body">
-        <table class="table">
+        <table class="display nowrap table-striped" style="width:100%" id="myTable">
             <thead>
                 <tr>
-                    <th hidden>ID</th> <!-- oculto el id--->
-                    <th hidden>Id tablero</th>
+                    <th></th>
                     <th>Tablero</th>
                     <th>Nombre</th>
                     <th>Descripcion</th>
@@ -26,28 +28,28 @@
                     @* <th>Usuario asignado</th> *@
                     <th>Estado</th>
                     <th></th>
-                    @* <th></th> *@
+                    <th hidden>ID</th> <!-- oculto el id--->
+                    <th hidden>Id tablero</th>
+                    <th hidden></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var t in Model.TareasVM)
                 {
                     <tr>
-                        <td hidden>@t.Id</td>
-                        <td hidden>@t.Id_tablero</td>
+                        <td></td>
                         <td>@t.NombreTablero</td>
                         <td>@t.Nombre</td>
                         <td>@t.Descripcion</td>
-                        <td>@t.Color</td>
+                        <td> <i class="bi bi-droplet-fill" style="color: @t.Color"></i></td>
                         @* <td>@t.NombreUsuarioAsignado</td> *@
                         <td>
-                            <form id="cambiarEstadoForm" asp-controller="Tarea" asp-action="UpdateEstado">
-                                <input type="hidden" name = "idTablero" value = "@t.Id_tablero">
-                                <input type="hidden" name = "id" value ="@t.Id" />
+                            <form id="cambiarEstadoForm_@t.Id" asp-controller="Tarea" asp-action="UpdateEstado">
+                                <input type="hidden" name="idTablero" value="@t.Id_tablero">
+                                <input type="hidden" name="id" value="@t.Id" />
                                 <div class="input-group">
-                                    <select asp-for="@t.Estado" class="form-select" class="form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()" id="estadoSelect" name = "estado">
+                                    <select asp-for="@t.Estado" class="form-select form-control" asp-items="@Html.GetEnumSelectList<EstadoTarea>()" name="estado" onchange="enviarFormulario('cambiarEstadoForm_@t.Id')">
                                     </select>
-                                    <button class="btn btn-outline-secondary" type="submit">Cambiar</button>
                                 </div>
                             </form>
                         </td>
@@ -72,11 +74,18 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </td>  
+                            </td>
+                            
+                        }else{
+                            <td></td>
                         }
+                        <td hidden>@t.Id</td>
+                        <td hidden>@t.Id_tablero</td>  
+                        <td hidden>@t.Estado</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+<script src="~/js/site3.js"></script>

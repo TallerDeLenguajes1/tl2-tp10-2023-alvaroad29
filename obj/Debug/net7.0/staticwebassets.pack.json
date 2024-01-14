@@ -45,6 +45,26 @@
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\js\\site2.js",
+      "PackagePath": "staticwebassets\\js\\site2.js"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\js\\site3.js",
+      "PackagePath": "staticwebassets\\js\\site3.js"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\js\\site4.js",
+      "PackagePath": "staticwebassets\\js\\site4.js"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\js\\site5.js",
+      "PackagePath": "staticwebassets\\js\\site5.js"
+    },
+    {
+      "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\js\\site6.js",
+      "PackagePath": "staticwebassets\\js\\site6.js"
+    },
+    {
       "Id": "C:\\RepoTaller2\\tl2-tp10-2023-alvaroad29\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
